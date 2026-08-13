@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЧОП — Частная Охрана Москва и МО</title>
+    <style>
+        :root {
+            --bg-main: #0b0e14;
+            --bg-card: #121722;
+            --bg-card-hover: #181f2e;
+            --gold: #d4af37;
+            --gold-bright: #f3cf65;
+            --border-dark: rgba(255, 255, 255, 0.08);
+            --border-gold: rgba(212, 175, 55, 0.4);
+            --text-main: #ffffff;
+            --text-muted: #8c9ba5;
+            --badge-bg: rgba(255, 255, 255, 0.05);
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; line-height: 1.5; }
+
+        /* HEADER */
+        header {
+            background: #0b0e14;
+            border-bottom: 1px solid var(--border-dark);
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-block { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 42px; border-radius: 50%; }
+        .logo-text h1 { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+
+        nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        nav button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        nav button:hover { color: #fff; }
+        nav button.active { background: var(--gold); color: #000; font-weight: 600; }
+
+        .btn-call {
+            background: var(--gold);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        .btn-call:hover { transform: translateY(-1px); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+        /* HERO SECTION */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+            padding: 40px 0 60px 0;
+        }
+        @media(max-width: 900px) { .hero { grid-template-columns: 1fr; text-align: center; } }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.15;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #D8D8D8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            max-width: 580px;
+        }
+
+        /* BADGES */
+        .badges-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        .badge {
+            background: var(--badge-bg);
+            border: 1px solid var(--border-dark);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #d1d5db;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* BUTTONS */
+        .hero-btns { display: flex; gap: 15px; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--gold);
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1px solid var(--border-dark);
+            cursor: pointer;
+        }
+
+        .hero-logo-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-logo-card img {
+            max-width: 100%;
+            height: auto;
+            max-height: 420px;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7));
+            border-radius: 12px;
+        }
+
+        /* FEATURES / SERVICES CARDS */
+        .sec-subtitle {
+            text-align: center;
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .sec-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-3px);
+            background: var(--bg-card-hover);
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .feature-card h3 { font-size: 18px; margin-bottom: 12px; font-weight: 700; }
+        .feature-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+
+        /* FORM CARDS */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        .card h3 { font-size: 20px; margin-bottom: 20px; color: var(--gold); }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #090c12;
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+
+        .doc-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .doc-item {
+            background: #090c12;
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .doc-item img { max-width: 100%; height: 180px; object-fit: contain; cursor: pointer; }
+
+        /* MODAL ADMIN */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--gold);
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .admin-sec { border-bottom: 1px solid var(--border-dark); padding-bottom: 20px; margin-bottom: 20px; }
+        .admin-item-row {
+            background: #090c12;
+            border: 1px solid var(--border-dark);
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+        .btn-danger { background: var(--danger); color: #fff; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-block">
+            <img src="image_50c260.png" alt="ЧОП" class="logo-img" onerror="this.src='https://via.placeholder.com/40/d4af37/000?text=ЧОП'">
+            <div class="logo-text">
+                <h1>МОСКВА И МОСКОВСКАЯ ОБЛАСТЬ</h1>
+            </div>
+        </div>
+        <nav>
+            <button onclick="showSection('main-sec')" class="active">Главная</button>
+            <button onclick="showSection('services-sec')">Услуги</button>
+            <button onclick="showSection('docs-sec')">Документация</button>
+            <button onclick="showSection('leaders-sec')">Руководство</button>
+            <button onclick="showSection('press-sec')">Пресс-служба</button>
+            <button onclick="openAdminModal()">Админ-Панель</button>
+        </nav>
+        <button class="btn-call" onclick="showSection('order-sec')">📞 Срочный вызов</button>
+    </header>
+
+    <div class="container">
+        
+        <!-- СЕКЦИЯ: ГЛАВНАЯ СТРАНИЦА -->
+        <div id="main-sec">
+            <div class="hero">
+                <div>
+                    <h1 class="hero-title">ЧАСТНАЯ ОХРАНА ПО г. МОСКВА И МО</h1>
+                    <p class="hero-desc">
+                        Профессиональная защита объектов любой сложности, бизнеса, мероприятий и частных лиц. Экипированные группы быстрого реагирования 24/7.
+                    </p>
+
+                    <div class="badges-list">
+                        <div class="badge">⚡ Прибытие ГБР от 7 минут</div>
+                        <div class="badge">🛡 Лицензия Роспотребнадзора / МВД</div>
+                        <div class="badge">💼 Полная материальная ответственность</div>
+                    </div>
+
+                    <div class="hero-btns">
+                        <button class="btn-primary" onclick="showSection('order-sec')">Заказать охрану</button>
+                        <button class="btn-outline" onclick="showSection('docs-sec')">📜 Посмотреть документацию</button>
+                    </div>
+                </div>
+
+                <div class="hero-logo-card">
+                    <img src="image_50c260.png" alt="Печать ЧОП" onerror="this.src='https://via.placeholder.com/350/d4af37/000?text=ГЕРБ+ЧОП'">
+                </div>
+            </div>
+
+            <div style="margin-top: 50px;">
+                <div class="sec-subtitle">ПОЧЕМУ ВЫБИРАЮТ НАС</div>
+                <h2 class="sec-title">Стандарты Безопасности Высокого Уровня</h2>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🏛</span>
+                        <h3>Охрана Объектов</h3>
+                        <p>Физическая и пультовая охрана бизнес-центров, складов, стройплощадок, ТРЦ и частных резиденций в Москве и МО.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🚨</span>
+                        <h3>Экипажи ГБР 24/7</h3>
+                        <p>Собственный автопарк подготовленных мобильных групп реагирования. Время доезда по тревоге от 7 до 12 минут.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">💼</span>
+                        <h3>Личная Охрана (VIP)</h3>
+                        <p>Опытные телохранители с разрешением на ношение оружия, курсами экстремального вождения и спецподготовкой.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- СЕКЦИЯ: ФОРМА ЗАКАЗА -->
+        <div id="order-sec" style="display: none;">
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <h3>Заказать услугу охраны</h3>
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label>Ваш Статик ID</label>
+                        <input type="text" id="staticId" placeholder="#1024" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Игровой номер телефона</label>
+                        <input type="text" id="phone" placeholder="555-777" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Тип услуги</label>
+                        <select id="serviceType">
+                            <option value="Охрана объекта">Охрана объекта</option>
+                            <option value="Вызов ГБР">Срочный вызов ГБР</option>
+                            <option value="Личная охрана">Личная охрана (VIP)</option>
+                            <option value="Сопровождение">Сопровождение кортежа</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Детали заказа</label>
+                        <textarea id="details" rows="3" placeholder="Локация, время, пожелания..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%;">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- СЕКЦИЯ: УСЛУГИ -->
+        <div id="services-sec" style="display: none;">
+            <h2 class="sec-title">Наши Услуги и Тарифы</h2>
+            <div class="features-grid" id="servicesContainer"></div>
+        </div>
+
+        <!-- СЕКЦИЯ: РУКОВОДСТВО -->
+        <div id="leaders-sec" style="display: none;">
+            <h2 class="sec-title">Руководство Предприятия</h2>
+            <div class="features-grid" id="leadersList"></div>
+        </div>
+
+        <!-- СЕКЦИЯ: ПРЕСС-СЛУЖБА -->
+        <div id="press-sec" style="display: none;">
+            <h2 class="sec-title">Пресс-Служба & Пресс-Релизы</h2>
+            <div id="newsList"></div>
+        </div>
+
+        <!-- СЕКЦИЯ: ДОКУМЕНТАЦИЯ -->
+        <div id="docs-sec" style="display: none;">
+            <h2 class="sec-title">Официальная Документация</h2>
+            <div class="doc-list" id="docGallery"></div>
+        </div>
+
+    </div>
+
+    <!-- МОДАЛКА АДМИНКИ -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <h3 style="color: var(--gold); margin-bottom: 20px;">Админ-Панель Управления</h3>
+            
+            <div id="adminLogin">
+                <div class="form-group">
+                    <label>Пароль Администратора</label>
+                    <input type="password" id="adminPassword" placeholder="Введите пароль...">
+                </div>
+                <button class="btn-primary" onclick="checkPassword()" style="width: 100%;">Войти</button>
+            </div>
+
+            <div id="adminPanel" style="display: none;">
+                <!-- 1. Услуги -->
+                <div class="admin-sec">
+                    <h4 style="margin-bottom: 10px;">🛠 Управление Услугами</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="srvTitle" placeholder="Название (напр: 🏢 Охрана объектов)">
+                        <input type="text" id="srvPrice" placeholder="Цена (напр: от $10,000 / час)">
+                    </div>
+                    <input type="text" id="srvDesc" placeholder="Описание услуги..." style="margin-bottom: 10px;">
+                    <button class="btn-primary" onclick="addService()" style="margin-bottom: 15px; width: 100%;">Добавить услугу</button>
+                    <div id="adminServicesList"></div>
+                </div>
+
+                <!-- 2. Новости -->
+                <div class="admin-sec">
+                    <h4 style="margin-bottom: 10px;">📢 Управление Пресс-релизами</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="newsTag" placeholder="Тег (Напр: [Официально])">
+                        <input type="text" id="newsText" placeholder="Текст...">
+                    </div>
+                    <button class="btn-primary" onclick="addNews()" style="margin-bottom: 15px; width: 100%;">Добавить новость</button>
+                    <div id="adminNewsList"></div>
+                </div>
+
+                <!-- 3. Руководство -->
+                <div class="admin-sec">
+                    <h4 style="margin-bottom: 10px;">👤 Управление Руководством</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="leadRole" placeholder="Должность">
+                        <input type="text" id="leadName" placeholder="ФИО">
+                        <input type="text" id="leadStatic" placeholder="Статик">
+                        <input type="text" id="leadPhone" placeholder="Телефон">
+                    </div>
+                    <input type="text" id="leadDuty" placeholder="Обязанности" style="margin-bottom: 10px;">
+                    <button class="btn-primary" onclick="addLeader()" style="margin-bottom: 15px; width: 100%;">Добавить руководителя</button>
+                    <div id="adminLeadersList"></div>
+                </div>
+
+                <!-- 4. Документы -->
+                <div class="admin-sec">
+                    <h4 style="margin-bottom: 10px;">📄 Управление Документами</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <input type="file" id="docUpload" accept="image/png">
+                        <input type="text" id="docTitle" placeholder="Название">
+                    </div>
+                    <button class="btn-primary" onclick="uploadDocument()" style="margin-bottom: 15px; width: 100%;">Загрузить PNG</button>
+                    <div id="adminDocsList"></div>
+                </div>
+
+                <!-- 5. Заказы -->
+                <div class="admin-sec">
+                    <h4 style="margin-bottom: 10px;">📦 Локальные Заказы (этой сессии)</h4>
+                    <div id="adminOrdersList"></div>
+                </div>
+            </div>
+
+            <button onclick="closeAdminModal()" style="margin-top: 10px; background: transparent; border: 1px solid var(--border-dark); color: var(--text-muted); padding: 10px; width: 100%; border-radius: 8px; cursor: pointer;">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASS = "%yH]9?5Rtvf:7&";
+        
+        // Вшитый Discord Webhook
+        const webhookUrl = "https://discord.com/api/webhooks/1537525072145809519/E2jdiBi4csxtSYtSDy1qeF8vifGthK1gRZSGYR-kemNBHGH43NG5WrqxAvf2mYx1oaxY";
+
+        const defaultServices = [
+            { id: 1, title: "🏢 Охрана Объектов", price: "от $10,000 / час", desc: "Круглосуточный пост охраны, контроль доступа, видеонаблюдение." },
+            { id: 2, title: "👤 Личная Охрана", price: "от $15,000 / час", desc: "Сопровождение VIP-персон подготовленными телохранителями." },
+            { id: 3, title: "🚘 Инкассация & Кортежи", price: "от $25,000 / выезд", desc: "Безопасная транспортировка ценностей и сопровождение." }
+        ];
+
+        const defaultLeaders = [
+            { id: 1, role: "Генеральный директор", name: "Шашукин В. В.", staticId: "#0001", phone: "777-777", duty: "Общий контроль, VIP-клиенты" }
+        ];
+
+        const defaultNews = [
+            { id: 1, tag: "[Официально]", text: "ЧОП переходит на круглосуточное патрулирование сектора." }
+        ];
+
+        function showSection(secId) {
+            const sections = ['main-sec', 'services-sec', 'docs-sec', 'leaders-sec', 'press-sec', 'order-sec'];
+            sections.forEach(id => document.getElementById(id).style.display = 'none');
+            
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(secId).style.display = 'block';
+            
+            const btnMap = {
+                'main-sec': 0, 'services-sec': 1, 'docs-sec': 2, 'leaders-sec': 3, 'press-sec': 4
+            };
+            if(btnMap[secId] !== undefined) document.querySelectorAll('nav button')[btnMap[secId]].classList.add('active');
+        }
+
+        // Сохранение и отправка заказов
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newOrder = {
+                id: Date.now(),
+                staticId: document.getElementById('staticId').value,
+                phone: document.getElementById('phone').value,
+                service: document.getElementById('serviceType').value,
+                details: document.getElementById('details').value,
+                date: new Date().toLocaleString()
+            };
+
+            // Сохранение локально
+            let orders = JSON.parse(localStorage.getItem('chop_orders') || '[]');
+            orders.unshift(newOrder);
+            localStorage.setItem('chop_orders', JSON.stringify(orders));
+
+            // Автоматическая отправка в Discord через вшитый вебхук
+            if (webhookUrl) {
+                const payload = {
+                    content: "🚨 **Поступила новая заявка на охрану!**",
+                    embeds: [{
+                        title: newOrder.service,
+                        color: 13917815,
+                        fields: [
+                            { name: "👤 Статик ID", value: newOrder.staticId, inline: true },
+                            { name: "📞 Телефон", value: newOrder.phone, inline: true },
+                            { name: "📝 Детали", value: newOrder.details, inline: false }
+                        ],
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).catch(err => console.error('Ошибка отправки вебхука:', err));
+            }
+
+            alert('Заявка успешно отправлена руководству!');
+            this.reset();
+            renderOrders();
+        });
+
+        // Админка
+        function openAdminModal() { 
+            document.getElementById('adminModal').style.display = 'flex'; 
+        }
+        function closeAdminModal() { 
+            document.getElementById('adminModal').style.display = 'none'; 
+        }
+
+        function checkPassword() {
+            if (document.getElementById('adminPassword').value === ADMIN_PASS) {
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                refreshAdminAll();
+            } else { alert('Неверный пароль!'); }
+        }
+
+        function refreshAdminAll() { 
+            renderServices();
+            renderNews(); 
+            renderLeaders(); 
+            renderDocs(); 
+            renderOrders(); 
+        }
+
+        // Услуги
+        function addService() {
+            const title = document.getElementById('srvTitle').value;
+            const price = document.getElementById('srvPrice').value;
+            const desc = document.getElementById('srvDesc').value;
+            if(!title || !price) return alert('Заполните название и цену!');
+            let services = JSON.parse(localStorage.getItem('chop_services')) || defaultServices;
+            services.push({ id: Date.now(), title, price, desc });
+            localStorage.setItem('chop_services', JSON.stringify(services));
+            document.getElementById('srvTitle').value = '';
+            document.getElementById('srvPrice').value = '';
+            document.getElementById('srvDesc').value = '';
+            renderServices();
+        }
+        function deleteService(id) {
+            let services = JSON.parse(localStorage.getItem('chop_services')) || defaultServices;
+            services = services.filter(s => s.id !== id);
+            localStorage.setItem('chop_services', JSON.stringify(services));
+            renderServices();
+        }
+        function renderServices() {
+            const services = JSON.parse(localStorage.getItem('chop_services')) || defaultServices;
+            const container = document.getElementById('servicesContainer');
+            if(container) {
+                container.innerHTML = services.map(s => `
+                    <div class="feature-card">
+                        <h3>${s.title}</h3>
+                        <p style="color: var(--gold); font-size: 18px; margin: 10px 0;">${s.price}</p>
+                        <p>${s.desc}</p>
+                    </div>
+                `).join('');
+            }
+            const adminContainer = document.getElementById('adminServicesList');
+            if(adminContainer) {
+                adminContainer.innerHTML = services.map(s => `
+                    <div class="admin-item-row">
+                        <div><strong>${s.title}</strong> (${s.price})</div>
+                        <button class="btn-danger" onclick="deleteService(${s.id})">Удалить</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Новости
+        function addNews() {
+            const tag = document.getElementById('newsTag').value || '[Новость]';
+            const text = document.getElementById('newsText').value;
+            if(!text) return alert('Введите текст!');
+            let news = JSON.parse(localStorage.getItem('chop_news')) || defaultNews;
+            news.unshift({ id: Date.now(), tag, text });
+            localStorage.setItem('chop_news', JSON.stringify(news));
+            document.getElementById('newsTag').value = ''; document.getElementById('newsText').value = '';
+            renderNews();
+        }
+        function deleteNews(id) {
+            let news = JSON.parse(localStorage.getItem('chop_news')) || defaultNews;
+            news = news.filter(n => n.id !== id);
+            localStorage.setItem('chop_news', JSON.stringify(news));
+            renderNews();
+        }
+        function renderNews() {
+            const news = JSON.parse(localStorage.getItem('chop_news')) || defaultNews;
+            document.getElementById('newsList').innerHTML = news.map(n => `
+                <div class="card">
+                    <strong style="color: var(--gold);">${n.tag}</strong>
+                    <p style="margin-top: 5px;">${n.text}</p>
+                </div>
+            `).join('');
+            document.getElementById('adminNewsList').innerHTML = news.map(n => `
+                <div class="admin-item-row">
+                    <div><strong>${n.tag}</strong> ${n.text}</div>
+                    <button class="btn-danger" onclick="deleteNews(${n.id})">Удалить</button>
+                </div>
+            `).join('');
+        }
+
+        // Руководство
+        function addLeader() {
+            const role = document.getElementById('leadRole').value;
+            const name = document.getElementById('leadName').value;
+            const staticId = document.getElementById('leadStatic').value;
+            const phone = document.getElementById('leadPhone').value;
+            const duty = document.getElementById('leadDuty').value;
+            if(!role || !name) return alert('Заполните данные!');
+            let leaders = JSON.parse(localStorage.getItem('chop_leaders')) || defaultLeaders;
+            leaders.push({ id: Date.now(), role, name, staticId, phone, duty });
+            localStorage.setItem('chop_leaders', JSON.stringify(leaders));
+            renderLeaders();
+        }
+        function deleteLeader(id) {
+            let leaders = JSON.parse(localStorage.getItem('chop_leaders')) || defaultLeaders;
+            leaders = leaders.filter(l => l.id !== id);
+            localStorage.setItem('chop_leaders', JSON.stringify(leaders));
+            renderLeaders();
+        }
+        function renderLeaders() {
+            const leaders = JSON.parse(localStorage.getItem('chop_leaders')) || defaultLeaders;
+            document.getElementById('leadersList').innerHTML = leaders.map(l => `
+                <div class="feature-card">
+                    <div style="color: var(--gold); font-size: 12px; font-weight: bold; text-transform: uppercase;">${l.role}</div>
+                    <h3 style="margin: 5px 0 10px 0;">${l.name}</h3>
+                    <p><strong>Статик:</strong> ${l.staticId}</p>
+                    <p><strong>Телефон:</strong> ${l.phone}</p>
+                    <p><strong>Обязанности:</strong> ${l.duty}</p>
+                </div>
+            `).join('');
+            document.getElementById('adminLeadersList').innerHTML = leaders.map(l => `
+                <div class="admin-item-row">
+                    <div><strong>${l.role}:</strong> ${l.name}</div>
+                    <button class="btn-danger" onclick="deleteLeader(${l.id})">Удалить</button>
+                </div>
+            `).join('');
+        }
+
+        // Документы
+        function uploadDocument() {
+            const fileInput = document.getElementById('docUpload');
+            const titleInput = document.getElementById('docTitle').value;
+            if (fileInput.files.length === 0) return alert('Выберите PNG файл!');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
+                docs.push({ id: Date.now(), title: titleInput || 'Официальный документ', image: e.target.result });
+                localStorage.setItem('chop_docs', JSON.stringify(docs));
+                renderDocs();
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        function deleteDoc(id) {
+            let docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
+            docs = docs.filter(d => d.id !== id);
+            localStorage.setItem('chop_docs', JSON.stringify(docs));
+            renderDocs();
+        }
+        function renderDocs() {
+            const docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
+            document.getElementById('docGallery').innerHTML = docs.length ? docs.map(d => `
+                <div class="doc-item">
+                    <img src="${d.image}" onclick="window.open('${d.image}')">
+                    <p style="margin-top: 8px;"><strong>${d.title}</strong></p>
+                </div>
+            `).join('') : '<p style="color: var(--text-muted);">Документы пока не загружены.</p>';
+            document.getElementById('adminDocsList').innerHTML = docs.map(d => `
+                <div class="admin-item-row">
+                    <div>📄 ${d.title}</div>
+                    <button class="btn-danger" onclick="deleteDoc(${d.id})">Удалить</button>
+                </div>
+            `).join('');
+        }
+
+        // Заказы
+        function renderOrders() {
+            const orders = JSON.parse(localStorage.getItem('chop_orders') || '[]');
+            const ordersContainer = document.getElementById('adminOrdersList');
+            if(ordersContainer) {
+                ordersContainer.innerHTML = orders.length ? orders.map(o => `
+                    <div class="admin-item-row" style="flex-direction: column; align-items: flex-start;">
+                        <div style="width:100%; display:flex; justify-content:space-between;">
+                            <strong style="color:var(--gold);">${o.service}</strong>
+                            <span style="font-size:10px; color:var(--text-muted);">${o.date}</span>
+                        </div>
+                        <div>клиент: ${o.staticId} | тел: ${o.phone}</div>
+                        <div style="color:var(--text-muted);">${o.details}</div>
+                        <button class="btn-danger" onclick="deleteOrder(${o.id})" style="margin-top:5px;">Удалить заказ</button>
+                    </div>
+                `).join('') : '<p style="color: var(--text-muted); font-size: 12px;">Заказов нет</p>';
+            }
+        }
+        function deleteOrder(id) {
+            let orders = JSON.parse(localStorage.getItem('chop_orders') || '[]');
+            orders = orders.filter(o => o.id !== id);
+            localStorage.setItem('chop_orders', JSON.stringify(orders));
+            renderOrders();
+        }
+
+        window.addEventListener('storage', function(e) {
+            if(e.key === 'chop_orders') renderOrders();
+            if(e.key === 'chop_news') renderNews();
+            if(e.key === 'chop_leaders') renderLeaders();
+            if(e.key === 'chop_docs') renderDocs();
+            if(e.key === 'chop_services') renderServices();
+        });
+
+        renderServices();
+        renderNews(); 
+        renderLeaders(); 
+        renderDocs();
+        renderOrders();
+    </script>
+</body>
+</html>
