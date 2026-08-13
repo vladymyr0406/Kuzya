@@ -374,19 +374,19 @@
         <!-- СЕКЦИЯ: УСЛУГИ -->
         <div id="services-sec" style="display: none;">
             <h2 class="sec-title">Наши Услуги и Тарифы</h2>
-            <div class="features-grid" id="servicesContainer"></div>
+            <div class="features-grid" id="servicesContainer">Загрузка из таблицы...</div>
         </div>
 
         <!-- СЕКЦИЯ: РУКОВОДСТВО -->
         <div id="leaders-sec" style="display: none;">
             <h2 class="sec-title">Руководство Предприятия</h2>
-            <div class="features-grid" id="leadersList"></div>
+            <div class="features-grid" id="leadersList">Загрузка из таблицы...</div>
         </div>
 
         <!-- СЕКЦИЯ: ПРЕСС-СЛУЖБА -->
         <div id="press-sec" style="display: none;">
             <h2 class="sec-title">Пресс-Служба & Пресс-Релизы</h2>
-            <div id="newsList"></div>
+            <div id="newsList">Загрузка из таблицы...</div>
         </div>
 
         <!-- СЕКЦИЯ: ДОКУМЕНТАЦИЯ -->
@@ -411,44 +411,9 @@
             </div>
 
             <div id="adminPanel" style="display: none;">
-                <!-- 1. Услуги -->
-                <div class="admin-sec">
-                    <h4 style="margin-bottom: 10px;">🛠 Управление Услугами</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                        <input type="text" id="srvTitle" placeholder="Название (напр: 🏢 Охрана объектов)">
-                        <input type="text" id="srvPrice" placeholder="Цена (напр: от $10,000 / час)">
-                    </div>
-                    <input type="text" id="srvDesc" placeholder="Описание услуги..." style="margin-bottom: 10px;">
-                    <button class="btn-primary" onclick="addService()" style="margin-bottom: 15px; width: 100%;">Добавить услугу</button>
-                    <div id="adminServicesList"></div>
-                </div>
-
-                <!-- 2. Новости -->
-                <div class="admin-sec">
-                    <h4 style="margin-bottom: 10px;">📢 Управление Пресс-релизами</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 10px;">
-                        <input type="text" id="newsTag" placeholder="Тег (Напр: [Официально])">
-                        <input type="text" id="newsText" placeholder="Текст...">
-                    </div>
-                    <button class="btn-primary" onclick="addNews()" style="margin-bottom: 15px; width: 100%;">Добавить новость</button>
-                    <div id="adminNewsList"></div>
-                </div>
-
-                <!-- 3. Руководство -->
-                <div class="admin-sec">
-                    <h4 style="margin-bottom: 10px;">👤 Управление Руководством</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                        <input type="text" id="leadRole" placeholder="Должность">
-                        <input type="text" id="leadName" placeholder="ФИО">
-                        <input type="text" id="leadStatic" placeholder="Статик">
-                        <input type="text" id="leadPhone" placeholder="Телефон">
-                    </div>
-                    <input type="text" id="leadDuty" placeholder="Обязанности" style="margin-bottom: 10px;">
-                    <button class="btn-primary" onclick="addLeader()" style="margin-bottom: 15px; width: 100%;">Добавить руководителя</button>
-                    <div id="adminLeadersList"></div>
-                </div>
-
-                <!-- 4. Документы -->
+                <p style="color: var(--gold); margin-bottom: 20px;">ℹ️ Управление контентом теперь происходит через вашу Google Таблицу. Измените данные там, и они обновятся на сайте.</p>
+                
+                <!-- 4. Документы (остаются локально, так как это картинки) -->
                 <div class="admin-sec">
                     <h4 style="margin-bottom: 10px;">📄 Управление Документами</h4>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
@@ -457,12 +422,6 @@
                     </div>
                     <button class="btn-primary" onclick="uploadDocument()" style="margin-bottom: 15px; width: 100%;">Загрузить PNG</button>
                     <div id="adminDocsList"></div>
-                </div>
-
-                <!-- 5. Заказы -->
-                <div class="admin-sec">
-                    <h4 style="margin-bottom: 10px;">📦 Локальные Заказы (этой сессии)</h4>
-                    <div id="adminOrdersList"></div>
                 </div>
             </div>
 
@@ -473,22 +432,11 @@
     <script>
         const ADMIN_PASS = "%yH]9?5Rtvf:7&";
         
+        // Вставьте вашу ссылку на Google Apps Script Web App здесь:
+        const API_URL = "ЗДЕСЬ_ССЫЛКА_НА_GOOGLE_APPS_SCRIPT"; 
+        
         // Вшитый Discord Webhook
         const webhookUrl = "https://discord.com/api/webhooks/1537525072145809519/E2jdiBi4csxtSYtSDy1qeF8vifGthK1gRZSGYR-kemNBHGH43NG5WrqxAvf2mYx1oaxY";
-
-        const defaultServices = [
-            { id: 1, title: "🏢 Охрана Объектов", price: "от $10,000 / час", desc: "Круглосуточный пост охраны, контроль доступа, видеонаблюдение." },
-            { id: 2, title: "👤 Личная Охрана", price: "от $15,000 / час", desc: "Сопровождение VIP-персон подготовленными телохранителями." },
-            { id: 3, title: "🚘 Инкассация & Кортежи", price: "от $25,000 / выезд", desc: "Безопасная транспортировка ценностей и сопровождение." }
-        ];
-
-        const defaultLeaders = [
-            { id: 1, role: "Генеральный директор", name: "Шашукин В. В.", staticId: "#0001", phone: "777-777", duty: "Общий контроль, VIP-клиенты" }
-        ];
-
-        const defaultNews = [
-            { id: 1, tag: "[Официально]", text: "ЧОП переходит на круглосуточное патрулирование сектора." }
-        ];
 
         function showSection(secId) {
             const sections = ['main-sec', 'services-sec', 'docs-sec', 'leaders-sec', 'press-sec', 'order-sec'];
@@ -503,34 +451,84 @@
             if(btnMap[secId] !== undefined) document.querySelectorAll('nav button')[btnMap[secId]].classList.add('active');
         }
 
+        // Загрузка данных из Google Таблицы
+        async function fetchCloudData() {
+            if (!API_URL || API_URL.includes("ЗДЕСЬ_ССЫЛКА")) {
+                console.warn("API_URL не настроен!");
+                return;
+            }
+            try {
+                const res = await fetch(`${API_URL}?action=getAll`);
+                const data = await res.json();
+                
+                // Рендер Услуг
+                if (data.services && document.getElementById('servicesContainer')) {
+                    document.getElementById('servicesContainer').innerHTML = data.services.map(s => `
+                        <div class="feature-card">
+                            <h3>${s.title}</h3>
+                            <p style="color: var(--gold); font-size: 18px; margin: 10px 0;">${s.price}</p>
+                            <p>${s.desc}</p>
+                        </div>
+                    `).join('');
+                }
+
+                // Рендер Новостей
+                if (data.news && document.getElementById('newsList')) {
+                    document.getElementById('newsList').innerHTML = data.news.map(n => `
+                        <div class="card">
+                            <strong style="color: var(--gold);">${n.tag || '[Новость]'}</strong>
+                            <p style="margin-top: 5px;">${n.text}</p>
+                        </div>
+                    `).join('');
+                }
+
+                // Рендер Руководства
+                if (data.leaders && document.getElementById('leadersList')) {
+                    document.getElementById('leadersList').innerHTML = data.leaders.map(l => `
+                        <div class="feature-card">
+                            <div style="color: var(--gold); font-size: 12px; font-weight: bold; text-transform: uppercase;">${l.role}</div>
+                            <h3 style="margin: 5px 0 10px 0;">${l.name}</h3>
+                            <p><strong>Статик:</strong> ${l.staticId}</p>
+                            <p><strong>Телефон:</strong> ${l.phone}</p>
+                            <p><strong>Обязанности:</strong> ${l.duty}</p>
+                        </div>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error("Ошибка получения данных из таблицы:", err);
+            }
+        }
+
         // Сохранение и отправка заказов
-        document.getElementById('orderForm').addEventListener('submit', function(e) {
+        document.getElementById('orderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const newOrder = {
-                id: Date.now(),
+            const orderData = {
+                action: 'addOrder',
                 staticId: document.getElementById('staticId').value,
                 phone: document.getElementById('phone').value,
                 service: document.getElementById('serviceType').value,
-                details: document.getElementById('details').value,
-                date: new Date().toLocaleString()
+                details: document.getElementById('details').value
             };
 
-            // Сохранение локально
-            let orders = JSON.parse(localStorage.getItem('chop_orders') || '[]');
-            orders.unshift(newOrder);
-            localStorage.setItem('chop_orders', JSON.stringify(orders));
+            // 1. Отправка в Google Таблицу (лист Orders)
+            if (API_URL && !API_URL.includes("ЗДЕСЬ_ССЫЛКА")) {
+                fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(orderData)
+                }).catch(err => console.error('Ошибка отправки в таблицу:', err));
+            }
 
-            // Автоматическая отправка в Discord через вшитый вебхук
+            // 2. Отправка в Discord
             if (webhookUrl) {
                 const payload = {
                     content: "🚨 **Поступила новая заявка на охрану!**",
                     embeds: [{
-                        title: newOrder.service,
+                        title: orderData.service,
                         color: 13917815,
                         fields: [
-                            { name: "👤 Статик ID", value: newOrder.staticId, inline: true },
-                            { name: "📞 Телефон", value: newOrder.phone, inline: true },
-                            { name: "📝 Детали", value: newOrder.details, inline: false }
+                            { name: "👤 Статик ID", value: orderData.staticId, inline: true },
+                            { name: "📞 Телефон", value: orderData.phone, inline: true },
+                            { name: "📝 Детали", value: orderData.details, inline: false }
                         ],
                         timestamp: new Date().toISOString()
                     }]
@@ -543,9 +541,8 @@
                 }).catch(err => console.error('Ошибка отправки вебхука:', err));
             }
 
-            alert('Заявка успешно отправлена руководству!');
+            alert('Заявка успешно отправлена!');
             this.reset();
-            renderOrders();
         });
 
         // Админка
@@ -560,133 +557,11 @@
             if (document.getElementById('adminPassword').value === ADMIN_PASS) {
                 document.getElementById('adminLogin').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
-                refreshAdminAll();
+                renderDocs();
             } else { alert('Неверный пароль!'); }
         }
 
-        function refreshAdminAll() { 
-            renderServices();
-            renderNews(); 
-            renderLeaders(); 
-            renderDocs(); 
-            renderOrders(); 
-        }
-
-        // Услуги
-        function addService() {
-            const title = document.getElementById('srvTitle').value;
-            const price = document.getElementById('srvPrice').value;
-            const desc = document.getElementById('srvDesc').value;
-            if(!title || !price) return alert('Заполните название и цену!');
-            let services = JSON.parse(localStorage.getItem('chop_services')) || defaultServices;
-            services.push({ id: Date.now(), title, price, desc });
-            localStorage.setItem('chop_services', JSON.stringify(services));
-            document.getElementById('srvTitle').value = '';
-            document.getElementById('srvPrice').value = '';
-            document.getElementById('srvDesc').value = '';
-            renderServices();
-        }
-        function deleteService(id) {
-            let services = JSON.parse(localStorage.getItem('chop_services')) || defaultServices;
-            services = services.filter(s => s.id !== id);
-            localStorage.setItem('chop_services', JSON.stringify(services));
-            renderServices();
-        }
-        function renderServices() {
-            const services = JSON.parse(localStorage.getItem('chop_services')) || defaultServices;
-            const container = document.getElementById('servicesContainer');
-            if(container) {
-                container.innerHTML = services.map(s => `
-                    <div class="feature-card">
-                        <h3>${s.title}</h3>
-                        <p style="color: var(--gold); font-size: 18px; margin: 10px 0;">${s.price}</p>
-                        <p>${s.desc}</p>
-                    </div>
-                `).join('');
-            }
-            const adminContainer = document.getElementById('adminServicesList');
-            if(adminContainer) {
-                adminContainer.innerHTML = services.map(s => `
-                    <div class="admin-item-row">
-                        <div><strong>${s.title}</strong> (${s.price})</div>
-                        <button class="btn-danger" onclick="deleteService(${s.id})">Удалить</button>
-                    </div>
-                `).join('');
-            }
-        }
-
-        // Новости
-        function addNews() {
-            const tag = document.getElementById('newsTag').value || '[Новость]';
-            const text = document.getElementById('newsText').value;
-            if(!text) return alert('Введите текст!');
-            let news = JSON.parse(localStorage.getItem('chop_news')) || defaultNews;
-            news.unshift({ id: Date.now(), tag, text });
-            localStorage.setItem('chop_news', JSON.stringify(news));
-            document.getElementById('newsTag').value = ''; document.getElementById('newsText').value = '';
-            renderNews();
-        }
-        function deleteNews(id) {
-            let news = JSON.parse(localStorage.getItem('chop_news')) || defaultNews;
-            news = news.filter(n => n.id !== id);
-            localStorage.setItem('chop_news', JSON.stringify(news));
-            renderNews();
-        }
-        function renderNews() {
-            const news = JSON.parse(localStorage.getItem('chop_news')) || defaultNews;
-            document.getElementById('newsList').innerHTML = news.map(n => `
-                <div class="card">
-                    <strong style="color: var(--gold);">${n.tag}</strong>
-                    <p style="margin-top: 5px;">${n.text}</p>
-                </div>
-            `).join('');
-            document.getElementById('adminNewsList').innerHTML = news.map(n => `
-                <div class="admin-item-row">
-                    <div><strong>${n.tag}</strong> ${n.text}</div>
-                    <button class="btn-danger" onclick="deleteNews(${n.id})">Удалить</button>
-                </div>
-            `).join('');
-        }
-
-        // Руководство
-        function addLeader() {
-            const role = document.getElementById('leadRole').value;
-            const name = document.getElementById('leadName').value;
-            const staticId = document.getElementById('leadStatic').value;
-            const phone = document.getElementById('leadPhone').value;
-            const duty = document.getElementById('leadDuty').value;
-            if(!role || !name) return alert('Заполните данные!');
-            let leaders = JSON.parse(localStorage.getItem('chop_leaders')) || defaultLeaders;
-            leaders.push({ id: Date.now(), role, name, staticId, phone, duty });
-            localStorage.setItem('chop_leaders', JSON.stringify(leaders));
-            renderLeaders();
-        }
-        function deleteLeader(id) {
-            let leaders = JSON.parse(localStorage.getItem('chop_leaders')) || defaultLeaders;
-            leaders = leaders.filter(l => l.id !== id);
-            localStorage.setItem('chop_leaders', JSON.stringify(leaders));
-            renderLeaders();
-        }
-        function renderLeaders() {
-            const leaders = JSON.parse(localStorage.getItem('chop_leaders')) || defaultLeaders;
-            document.getElementById('leadersList').innerHTML = leaders.map(l => `
-                <div class="feature-card">
-                    <div style="color: var(--gold); font-size: 12px; font-weight: bold; text-transform: uppercase;">${l.role}</div>
-                    <h3 style="margin: 5px 0 10px 0;">${l.name}</h3>
-                    <p><strong>Статик:</strong> ${l.staticId}</p>
-                    <p><strong>Телефон:</strong> ${l.phone}</p>
-                    <p><strong>Обязанности:</strong> ${l.duty}</p>
-                </div>
-            `).join('');
-            document.getElementById('adminLeadersList').innerHTML = leaders.map(l => `
-                <div class="admin-item-row">
-                    <div><strong>${l.role}:</strong> ${l.name}</div>
-                    <button class="btn-danger" onclick="deleteLeader(${l.id})">Удалить</button>
-                </div>
-            `).join('');
-        }
-
-        // Документы
+        // Документы (хранятся локально в браузере для картинок)
         function uploadDocument() {
             const fileInput = document.getElementById('docUpload');
             const titleInput = document.getElementById('docTitle').value;
@@ -708,58 +583,29 @@
         }
         function renderDocs() {
             const docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
-            document.getElementById('docGallery').innerHTML = docs.length ? docs.map(d => `
-                <div class="doc-item">
-                    <img src="${d.image}" onclick="window.open('${d.image}')">
-                    <p style="margin-top: 8px;"><strong>${d.title}</strong></p>
-                </div>
-            `).join('') : '<p style="color: var(--text-muted);">Документы пока не загружены.</p>';
-            document.getElementById('adminDocsList').innerHTML = docs.map(d => `
-                <div class="admin-item-row">
-                    <div>📄 ${d.title}</div>
-                    <button class="btn-danger" onclick="deleteDoc(${d.id})">Удалить</button>
-                </div>
-            `).join('');
-        }
-
-        // Заказы
-        function renderOrders() {
-            const orders = JSON.parse(localStorage.getItem('chop_orders') || '[]');
-            const ordersContainer = document.getElementById('adminOrdersList');
-            if(ordersContainer) {
-                ordersContainer.innerHTML = orders.length ? orders.map(o => `
-                    <div class="admin-item-row" style="flex-direction: column; align-items: flex-start;">
-                        <div style="width:100%; display:flex; justify-content:space-between;">
-                            <strong style="color:var(--gold);">${o.service}</strong>
-                            <span style="font-size:10px; color:var(--text-muted);">${o.date}</span>
-                        </div>
-                        <div>клиент: ${o.staticId} | тел: ${o.phone}</div>
-                        <div style="color:var(--text-muted);">${o.details}</div>
-                        <button class="btn-danger" onclick="deleteOrder(${o.id})" style="margin-top:5px;">Удалить заказ</button>
+            const gallery = document.getElementById('docGallery');
+            if(gallery) {
+                gallery.innerHTML = docs.length ? docs.map(d => `
+                    <div class="doc-item">
+                        <img src="${d.image}" onclick="window.open('${d.image}')">
+                        <p style="margin-top: 8px;"><strong>${d.title}</strong></p>
                     </div>
-                `).join('') : '<p style="color: var(--text-muted); font-size: 12px;">Заказов нет</p>';
+                `).join('') : '<p style="color: var(--text-muted);">Документы пока не загружены.</p>';
+            }
+            const adminDocs = document.getElementById('adminDocsList');
+            if(adminDocs) {
+                adminDocs.innerHTML = docs.map(d => `
+                    <div class="admin-item-row">
+                        <div>📄 ${d.title}</div>
+                        <button class="btn-danger" onclick="deleteDoc(${d.id})">Удалить</button>
+                    </div>
+                `).join('');
             }
         }
-        function deleteOrder(id) {
-            let orders = JSON.parse(localStorage.getItem('chop_orders') || '[]');
-            orders = orders.filter(o => o.id !== id);
-            localStorage.setItem('chop_orders', JSON.stringify(orders));
-            renderOrders();
-        }
 
-        window.addEventListener('storage', function(e) {
-            if(e.key === 'chop_orders') renderOrders();
-            if(e.key === 'chop_news') renderNews();
-            if(e.key === 'chop_leaders') renderLeaders();
-            if(e.key === 'chop_docs') renderDocs();
-            if(e.key === 'chop_services') renderServices();
-        });
-
-        renderServices();
-        renderNews(); 
-        renderLeaders(); 
+        // Запуск при загрузке страницы
+        fetchCloudData();
         renderDocs();
-        renderOrders();
     </script>
 </body>
 </html>
