@@ -470,8 +470,8 @@
     <script>
         const ADMIN_PASS = "%yH]9?5Rtvf:7&";
         
-        // Ссылка на ваш скрипт Google Apps Script
-        const API_URL = "ЗДЕСЬ_ССЫЛКА_НА_GOOGLE_APPS_SCRIPT"; 
+        // ВАШ УКАЗАННЫЙ GOOGLE APPS SCRIPT URL:
+        const API_URL = "https://script.google.com/macros/s/AKfycbwVaK9JvX6zTI1L4JAHapuDMzI4jo3mYyqjdgEeBnb-x6BjKa4YhcOSsnuqWswiz5ldjg/exec"; 
         
         // Вшитый Discord Webhook
         const webhookUrl = "https://discord.com/api/webhooks/1537525072145809519/E2jdiBi4csxtSYtSDy1qeF8vifGthK1gRZSGYR-kemNBHGH43NG5WrqxAvf2mYx1oaxY";
@@ -491,10 +491,8 @@
 
         // Загрузка данных из облака
         async function fetchCloudData() {
-            if (!API_URL || API_URL.includes("ЗДЕСЬ_ССЫЛКА")) return;
-            
             try {
-                const res = await fetch(`${API_URL}?action=getAll`);
+                const res = await fetch(`${API_URL}?action=getAll&nocache=${Date.now()}`);
                 const data = await res.json();
                 
                 // Услуги
@@ -536,7 +534,7 @@
                     renderDocsFromCloud(data.docs);
                 }
             } catch (err) {
-                console.error("Ошибка сети:", err);
+                console.error("Ошибка загрузки данных из таблицы:", err);
             }
         }
 
@@ -552,9 +550,7 @@
             };
 
             // В Google Таблицу
-            if (API_URL && !API_URL.includes("ЗДЕСЬ_ССЫЛКА")) {
-                fetch(API_URL, { method: 'POST', body: JSON.stringify(orderData) }).catch(err => console.error(err));
-            }
+            fetch(API_URL, { method: 'POST', body: JSON.stringify(orderData) }).catch(err => console.error(err));
 
             // В Discord
             if (webhookUrl) {
