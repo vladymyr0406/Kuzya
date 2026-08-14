@@ -6,27 +6,35 @@
     <title>ЧОП — Частная Охрана Москва и МО</title>
     <style>
         :root {
-            --bg-main: #0b0e14;
-            --bg-card: #121722;
-            --bg-card-hover: #181f2e;
+            --bg-main: #080a0f;
+            --bg-card: #0f141d;
+            --bg-card-hover: #151c2a;
             --gold: #d4af37;
-            --gold-bright: #f3cf65;
-            --border-dark: rgba(255, 255, 255, 0.08);
-            --border-gold: rgba(212, 175, 55, 0.4);
-            --text-main: #ffffff;
-            --text-muted: #8c9ba5;
-            --badge-bg: rgba(255, 255, 255, 0.05);
+            --gold-bright: #fcd34d;
+            --gold-glow: rgba(212, 175, 55, 0.25);
+            --border-dark: rgba(255, 255, 255, 0.07);
+            --border-gold: rgba(212, 175, 55, 0.35);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
             --danger: #ef4444;
+            --glass-bg: rgba(15, 20, 29, 0.75);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; line-height: 1.5; }
+        body { 
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+        }
 
         /* HEADER */
         header {
-            background: #0b0e14;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-dark);
-            padding: 18px 8%;
+            padding: 16px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -35,61 +43,67 @@
             z-index: 100;
         }
 
-        .logo-block { display: flex; align-items: center; gap: 12px; }
-        .logo-img { height: 42px; border-radius: 50%; }
-        .logo-text h1 { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+        .logo-block { display: flex; align-items: center; gap: 14px; }
+        .logo-img { height: 44px; width: 44px; border-radius: 50%; border: 1px solid var(--border-gold); box-shadow: 0 0 10px var(--gold-glow); }
+        .logo-text h1 { font-size: 14px; font-weight: 800; color: #fff; letter-spacing: 1px; text-transform: uppercase; }
 
-        nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        nav { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
         nav button {
             background: transparent;
-            border: none;
+            border: 1px solid transparent;
             color: var(--text-muted);
             padding: 8px 16px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.25s ease;
         }
-        nav button:hover { color: #fff; }
-        nav button.active { background: var(--gold); color: #000; font-weight: 600; }
+        nav button:hover { color: #fff; background: rgba(255, 255, 255, 0.04); }
+        nav button.active { 
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright)); 
+            color: #000; 
+            font-weight: 700;
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
 
         .btn-call {
-            background: var(--gold);
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
             color: #000;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 8px;
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 800;
+            font-size: 13px;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--gold-glow);
         }
-        .btn-call:hover { transform: translateY(-1px); }
+        .btn-call:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
 
         /* HERO SECTION */
         .hero {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
-            gap: 40px;
+            gap: 50px;
             align-items: center;
-            padding: 40px 0 60px 0;
+            padding: 30px 0 60px 0;
         }
         @media(max-width: 900px) { .hero { grid-template-columns: 1fr; text-align: center; } }
 
         .hero-title {
-            font-size: 42px;
-            font-weight: 800;
+            font-size: 46px;
+            font-weight: 900;
             line-height: 1.15;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            background: linear-gradient(180deg, #FFFFFF 0%, #D8D8D8 100%);
+            letter-spacing: 0.5px;
+            margin-bottom: 22px;
+            background: linear-gradient(180deg, #FFFFFF 30%, #a1a1a1 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -97,17 +111,17 @@
         .hero-desc {
             color: var(--text-muted);
             font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 25px;
+            line-height: 1.7;
+            margin-bottom: 30px;
             max-width: 580px;
         }
 
         /* BADGES */
-        .badges-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        .badges-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 35px; }
         .badge {
-            background: var(--badge-bg);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-dark);
-            padding: 8px 14px;
+            padding: 8px 16px;
             border-radius: 20px;
             font-size: 13px;
             color: #d1d5db;
@@ -119,123 +133,143 @@
         /* BUTTONS */
         .hero-btns { display: flex; gap: 15px; flex-wrap: wrap; }
         .btn-primary {
-            background: var(--gold);
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
             color: #000;
-            padding: 14px 28px;
+            padding: 14px 30px;
             border-radius: 8px;
-            font-weight: 700;
-            font-size: 15px;
+            font-weight: 800;
+            font-size: 14px;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--gold-glow);
         }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+
         .btn-outline {
             background: transparent;
             color: #fff;
-            padding: 14px 28px;
+            padding: 14px 30px;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 15px;
-            border: 1px solid var(--border-dark);
+            font-size: 14px;
+            border: 1px solid var(--border-gold);
             cursor: pointer;
+            transition: all 0.3s ease;
         }
+        .btn-outline:hover { background: var(--gold-glow); border-color: var(--gold); }
 
-        .hero-logo-card {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .hero-logo-card { display: flex; justify-content: center; align-items: center; position: relative; }
         .hero-logo-card img {
             max-width: 100%;
             height: auto;
-            max-height: 420px;
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7));
-            border-radius: 12px;
+            max-height: 400px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
+            border-radius: 16px;
+            border: 1px solid var(--border-gold);
         }
 
-        /* FEATURES / SERVICES CARDS */
+        /* FEATURES & CARDS */
         .sec-subtitle {
             text-align: center;
             color: var(--gold);
             font-size: 12px;
             font-weight: 800;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 10px;
         }
         .sec-title {
             text-align: center;
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 800;
             margin-bottom: 40px;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 24px;
         }
 
         .feature-card {
             background: var(--bg-card);
             border: 1px solid var(--border-dark);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 30px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         .feature-card:hover {
-            border-color: rgba(212, 175, 55, 0.3);
-            transform: translateY(-3px);
+            border-color: var(--border-gold);
+            transform: translateY(-4px);
             background: var(--bg-card-hover);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+        .feature-card:hover::before { opacity: 1; }
 
-        .feature-icon {
-            font-size: 28px;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-        .feature-card h3 { font-size: 18px; margin-bottom: 12px; font-weight: 700; }
+        .feature-icon { font-size: 32px; margin-bottom: 18px; display: inline-block; }
+        .feature-card h3 { font-size: 19px; margin-bottom: 12px; font-weight: 700; color: #fff; }
         .feature-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
 
-        /* FORM CARDS */
+        /* FORMS */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-dark);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 20px;
+            border-radius: 14px;
+            padding: 35px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .card h3 { font-size: 20px; margin-bottom: 20px; color: var(--gold); }
+        .card h3 { font-size: 22px; margin-bottom: 20px; color: var(--gold); font-weight: 800; }
 
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
         input, select, textarea {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: #090c12;
             border: 1px solid var(--border-dark);
-            border-radius: 8px;
+            border-radius: 10px;
             color: #fff;
             outline: none;
+            transition: all 0.25s ease;
+            font-size: 14px;
         }
-        input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--gold); 
+            box-shadow: 0 0 12px var(--gold-glow);
+        }
 
-        .doc-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        /* DOCS GALLERY */
+        .doc-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
         .doc-item {
             background: #090c12;
             border: 1px solid var(--border-dark);
-            border-radius: 8px;
-            padding: 12px;
+            border-radius: 12px;
+            padding: 16px;
             text-align: center;
+            transition: all 0.3s ease;
         }
-        .doc-item img { max-width: 100%; height: 180px; object-fit: contain; cursor: pointer; }
+        .doc-item:hover { border-color: var(--gold); transform: scale(1.02); }
+        .doc-item img { max-width: 100%; height: 200px; object-fit: contain; cursor: pointer; border-radius: 6px; }
 
-        /* MODAL ADMIN */
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -243,26 +277,27 @@
         .modal-content {
             background: var(--bg-card);
             border: 1px solid var(--gold);
-            padding: 30px;
-            border-radius: 12px;
+            padding: 35px;
+            border-radius: 16px;
             width: 90%;
-            max-width: 800px;
+            max-width: 750px;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 0 40px var(--gold-glow);
         }
         .admin-sec { border-bottom: 1px solid var(--border-dark); padding-bottom: 20px; margin-bottom: 20px; }
         .admin-item-row {
             background: #090c12;
             border: 1px solid var(--border-dark);
-            padding: 10px 14px;
-            border-radius: 6px;
-            margin-bottom: 8px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 13px;
         }
-        .btn-danger { background: var(--danger); color: #fff; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; }
+        .btn-danger { background: var(--danger); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -270,9 +305,9 @@
     <!-- HEADER -->
     <header>
         <div class="logo-block">
-            <img src="image_50c260.png" alt="ЧОП" class="logo-img" onerror="this.src='https://via.placeholder.com/40/d4af37/000?text=ЧОП'">
+            <img src="image_50c260.png" alt="ЧОП" class="logo-img" onerror="this.src='https://via.placeholder.com/44/d4af37/000?text=ЧОП'">
             <div class="logo-text">
-                <h1>МОСКВА И МОСКОВСКАЯ ОБЛАСТЬ</h1>
+                <h1>Москва и МО</h1>
             </div>
         </div>
         <nav>
@@ -292,49 +327,49 @@
         <div id="main-sec">
             <div class="hero">
                 <div>
-                    <h1 class="hero-title">ЧАСТНАЯ ОХРАНА ПО г. МОСКВА И МО</h1>
+                    <h1 class="hero-title">Частная Охрана Москва и МО</h1>
                     <p class="hero-desc">
-                        Профессиональная защита объектов любой сложности, бизнеса, мероприятий и частных лиц. Экипированные группы быстрого реагирования 24/7.
+                        Профессиональная защита объектов любой сложности, бизнеса, VIP-персон и мероприятий. Экипированные мобильные группы быстрого реагирования 24/7.
                     </p>
 
                     <div class="badges-list">
                         <div class="badge">⚡ Прибытие ГБР от 7 минут</div>
                         <div class="badge">🛡 Лицензия Роспотребнадзора / МВД</div>
-                        <div class="badge">💼 Полная материальная ответственность</div>
+                        <div class="badge">💼 Полная ответственность</div>
                     </div>
 
                     <div class="hero-btns">
                         <button class="btn-primary" onclick="showSection('order-sec')">Заказать охрану</button>
-                        <button class="btn-outline" onclick="showSection('docs-sec')">📜 Посмотреть документацию</button>
+                        <button class="btn-outline" onclick="showSection('docs-sec')">📜 Документация</button>
                     </div>
                 </div>
 
                 <div class="hero-logo-card">
-                    <img src="image_50c260.png" alt="Печать ЧОП" onerror="this.src='https://via.placeholder.com/350/d4af37/000?text=ГЕРБ+ЧОП'">
+                    <img src="image_50c260.png" alt="Печать ЧОП" onerror="this.src='https://via.placeholder.com/380/d4af37/000?text=ГЕРБ+ЧОП'">
                 </div>
             </div>
 
-            <div style="margin-top: 50px;">
-                <div class="sec-subtitle">ПОЧЕМУ ВЫБИРАЮТ НАС</div>
-                <h2 class="sec-title">Стандарты Безопасности Высокого Уровня</h2>
+            <div style="margin-top: 60px;">
+                <div class="sec-subtitle">Преимущества</div>
+                <h2 class="sec-title">Стандарты Высокого Уровня</h2>
 
                 <div class="features-grid">
                     <div class="feature-card">
                         <span class="feature-icon">🏛</span>
                         <h3>Охрана Объектов</h3>
-                        <p>Физическая и пультовая охрана бизнес-центров, складов, стройплощадок, ТРЦ и частных резиденций в Москве и МО.</p>
+                        <p>Физическая и пультовая охрана бизнес-центров, складов, ТРЦ и частных резиденций.</p>
                     </div>
 
                     <div class="feature-card">
                         <span class="feature-icon">🚨</span>
                         <h3>Экипажи ГБР 24/7</h3>
-                        <p>Собственный автопарк подготовленных мобильных групп реагирования. Время доезда по тревоге от 7 до 12 минут.</p>
+                        <p>Собственный автопарк подготовленных мобильных групп реагирования. Доезд от 7 минут.</p>
                     </div>
 
                     <div class="feature-card">
                         <span class="feature-icon">💼</span>
                         <h3>Личная Охрана (VIP)</h3>
-                        <p>Опытные телохранители с разрешением на ношение оружия, курсами экстремального вождения и спецподготовкой.</p>
+                        <p>Опытные телохранители с разрешением на спецсредства и экстремальное вождение.</p>
                     </div>
                 </div>
             </div>
@@ -364,7 +399,7 @@
                     </div>
                     <div class="form-group">
                         <label>Детали заказа</label>
-                        <textarea id="details" rows="3" placeholder="Локация, время, пожелания..." required></textarea>
+                        <textarea id="details" rows="4" placeholder="Локация, время, пожелания..." required></textarea>
                     </div>
                     <button type="submit" class="btn-primary" style="width: 100%;">Отправить заявку</button>
                 </form>
@@ -373,24 +408,28 @@
 
         <!-- СЕКЦИЯ: УСЛУГИ -->
         <div id="services-sec" style="display: none;">
-            <h2 class="sec-title">Наши Услуги и Тарифы</h2>
-            <div class="features-grid" id="servicesContainer">Загрузка из таблицы...</div>
+            <div class="sec-subtitle">Тарифы</div>
+            <h2 class="sec-title">Услуги и Стоимость</h2>
+            <div class="features-grid" id="servicesContainer">Загрузка...</div>
         </div>
 
         <!-- СЕКЦИЯ: РУКОВОДСТВО -->
         <div id="leaders-sec" style="display: none;">
+            <div class="sec-subtitle">Команда</div>
             <h2 class="sec-title">Руководство Предприятия</h2>
-            <div class="features-grid" id="leadersList">Загрузка из таблицы...</div>
+            <div class="features-grid" id="leadersList">Загрузка...</div>
         </div>
 
         <!-- СЕКЦИЯ: ПРЕСС-СЛУЖБА -->
         <div id="press-sec" style="display: none;">
-            <h2 class="sec-title">Пресс-Служба & Пресс-Релизы</h2>
-            <div id="newsList">Загрузка из таблицы...</div>
+            <div class="sec-subtitle">Новости</div>
+            <h2 class="sec-title">Пресс-Служба & Релизы</h2>
+            <div id="newsList">Загрузка...</div>
         </div>
 
         <!-- СЕКЦИЯ: ДОКУМЕНТАЦИЯ -->
         <div id="docs-sec" style="display: none;">
+            <div class="sec-subtitle">Сертификация</div>
             <h2 class="sec-title">Официальная Документация</h2>
             <div class="doc-list" id="docGallery"></div>
         </div>
@@ -400,7 +439,7 @@
     <!-- МОДАЛКА АДМИНКИ -->
     <div class="modal" id="adminModal">
         <div class="modal-content">
-            <h3 style="color: var(--gold); margin-bottom: 20px;">Админ-Панель Управления</h3>
+            <h3 style="color: var(--gold); margin-bottom: 20px;">Панель Управления</h3>
             
             <div id="adminLogin">
                 <div class="form-group">
@@ -411,28 +450,27 @@
             </div>
 
             <div id="adminPanel" style="display: none;">
-                <p style="color: var(--gold); margin-bottom: 20px;">ℹ️ Управление контентом теперь происходит через вашу Google Таблицу. Измените данные там, и они обновятся на сайте.</p>
+                <p style="color: var(--gold); margin-bottom: 20px; font-size: 13px;">ℹ️ Услуги, новости и руководство управляются через Google Таблицу.</p>
                 
-                <!-- 4. Документы (остаются локально, так как это картинки) -->
                 <div class="admin-sec">
-                    <h4 style="margin-bottom: 10px;">📄 Управление Документами</h4>
+                    <h4 style="margin-bottom: 12px; color: #fff;">📄 Быстрая загрузка документов (локально)</h4>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                        <input type="file" id="docUpload" accept="image/png">
-                        <input type="text" id="docTitle" placeholder="Название">
+                        <input type="file" id="docUpload" accept="image/*">
+                        <input type="text" id="docTitle" placeholder="Название документа">
                     </div>
-                    <button class="btn-primary" onclick="uploadDocument()" style="margin-bottom: 15px; width: 100%;">Загрузить PNG</button>
+                    <button class="btn-primary" onclick="uploadDocument()" style="margin-bottom: 15px; width: 100%;">Загрузить в браузер</button>
                     <div id="adminDocsList"></div>
                 </div>
             </div>
 
-            <button onclick="closeAdminModal()" style="margin-top: 10px; background: transparent; border: 1px solid var(--border-dark); color: var(--text-muted); padding: 10px; width: 100%; border-radius: 8px; cursor: pointer;">Закрыть</button>
+            <button onclick="closeAdminModal()" style="margin-top: 10px; background: transparent; border: 1px solid var(--border-dark); color: var(--text-muted); padding: 12px; width: 100%; border-radius: 10px; cursor: pointer;">Закрыть</button>
         </div>
     </div>
 
     <script>
         const ADMIN_PASS = "%yH]9?5Rtvf:7&";
         
-        // Вставьте вашу ссылку на Google Apps Script Web App здесь:
+        // Ссылка на ваш скрипт Google Apps Script
         const API_URL = "ЗДЕСЬ_ССЫЛКА_НА_GOOGLE_APPS_SCRIPT"; 
         
         // Вшитый Discord Webhook
@@ -451,55 +489,58 @@
             if(btnMap[secId] !== undefined) document.querySelectorAll('nav button')[btnMap[secId]].classList.add('active');
         }
 
-        // Загрузка данных из Google Таблицы
+        // Загрузка данных из облака
         async function fetchCloudData() {
-            if (!API_URL || API_URL.includes("ЗДЕСЬ_ССЫЛКА")) {
-                console.warn("API_URL не настроен!");
-                return;
-            }
+            if (!API_URL || API_URL.includes("ЗДЕСЬ_ССЫЛКА")) return;
+            
             try {
                 const res = await fetch(`${API_URL}?action=getAll`);
                 const data = await res.json();
                 
-                // Рендер Услуг
+                // Услуги
                 if (data.services && document.getElementById('servicesContainer')) {
                     document.getElementById('servicesContainer').innerHTML = data.services.map(s => `
                         <div class="feature-card">
                             <h3>${s.title}</h3>
-                            <p style="color: var(--gold); font-size: 18px; margin: 10px 0;">${s.price}</p>
+                            <p style="color: var(--gold); font-size: 20px; font-weight: 800; margin: 10px 0;">${s.price}</p>
                             <p>${s.desc}</p>
                         </div>
                     `).join('');
                 }
 
-                // Рендер Новостей
+                // Новости
                 if (data.news && document.getElementById('newsList')) {
                     document.getElementById('newsList').innerHTML = data.news.map(n => `
                         <div class="card">
-                            <strong style="color: var(--gold);">${n.tag || '[Новость]'}</strong>
-                            <p style="margin-top: 5px;">${n.text}</p>
+                            <strong style="color: var(--gold); font-size: 14px;">${n.tag || '[Новость]'}</strong>
+                            <p style="margin-top: 8px; font-size: 15px;">${n.text}</p>
                         </div>
                     `).join('');
                 }
 
-                // Рендер Руководства
+                // Руководство
                 if (data.leaders && document.getElementById('leadersList')) {
                     document.getElementById('leadersList').innerHTML = data.leaders.map(l => `
                         <div class="feature-card">
-                            <div style="color: var(--gold); font-size: 12px; font-weight: bold; text-transform: uppercase;">${l.role}</div>
-                            <h3 style="margin: 5px 0 10px 0;">${l.name}</h3>
+                            <div style="color: var(--gold); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">${l.role}</div>
+                            <h3 style="margin: 6px 0 12px 0;">${l.name}</h3>
                             <p><strong>Статик:</strong> ${l.staticId}</p>
                             <p><strong>Телефон:</strong> ${l.phone}</p>
                             <p><strong>Обязанности:</strong> ${l.duty}</p>
                         </div>
                     `).join('');
                 }
+
+                // Документы из таблицы
+                if (data.docs && data.docs.length > 0) {
+                    renderDocsFromCloud(data.docs);
+                }
             } catch (err) {
-                console.error("Ошибка получения данных из таблицы:", err);
+                console.error("Ошибка сети:", err);
             }
         }
 
-        // Сохранение и отправка заказов
+        // Заказ
         document.getElementById('orderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const orderData = {
@@ -510,15 +551,12 @@
                 details: document.getElementById('details').value
             };
 
-            // 1. Отправка в Google Таблицу (лист Orders)
+            // В Google Таблицу
             if (API_URL && !API_URL.includes("ЗДЕСЬ_ССЫЛКА")) {
-                fetch(API_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(orderData)
-                }).catch(err => console.error('Ошибка отправки в таблицу:', err));
+                fetch(API_URL, { method: 'POST', body: JSON.stringify(orderData) }).catch(err => console.error(err));
             }
 
-            // 2. Отправка в Discord
+            // В Discord
             if (webhookUrl) {
                 const payload = {
                     content: "🚨 **Поступила новая заявка на охрану!**",
@@ -533,12 +571,7 @@
                         timestamp: new Date().toISOString()
                     }]
                 };
-
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                }).catch(err => console.error('Ошибка отправки вебхука:', err));
+                fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             }
 
             alert('Заявка успешно отправлена!');
@@ -546,12 +579,8 @@
         });
 
         // Админка
-        function openAdminModal() { 
-            document.getElementById('adminModal').style.display = 'flex'; 
-        }
-        function closeAdminModal() { 
-            document.getElementById('adminModal').style.display = 'none'; 
-        }
+        function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
+        function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
         function checkPassword() {
             if (document.getElementById('adminPassword').value === ADMIN_PASS) {
@@ -561,11 +590,11 @@
             } else { alert('Неверный пароль!'); }
         }
 
-        // Документы (хранятся локально в браузере для картинок)
+        // Локальные документы
         function uploadDocument() {
             const fileInput = document.getElementById('docUpload');
             const titleInput = document.getElementById('docTitle').value;
-            if (fileInput.files.length === 0) return alert('Выберите PNG файл!');
+            if (fileInput.files.length === 0) return alert('Выберите файл!');
             const reader = new FileReader();
             reader.onload = function(e) {
                 const docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
@@ -575,25 +604,40 @@
             };
             reader.readAsDataURL(fileInput.files[0]);
         }
+
         function deleteDoc(id) {
             let docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
             docs = docs.filter(d => d.id !== id);
             localStorage.setItem('chop_docs', JSON.stringify(docs));
             renderDocs();
         }
+
+        function renderDocsFromCloud(cloudDocs) {
+            const gallery = document.getElementById('docGallery');
+            if (gallery) {
+                gallery.innerHTML = cloudDocs.map(d => `
+                    <div class="doc-item">
+                        <img src="${d.imageUrl}" onclick="window.open('${d.imageUrl}')">
+                        <p style="margin-top: 10px; font-size: 14px;"><strong>${d.title}</strong></p>
+                    </div>
+                `).join('');
+            }
+        }
+
         function renderDocs() {
             const docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
             const gallery = document.getElementById('docGallery');
-            if(gallery) {
+            if (gallery && gallery.children.length === 0) {
                 gallery.innerHTML = docs.length ? docs.map(d => `
                     <div class="doc-item">
                         <img src="${d.image}" onclick="window.open('${d.image}')">
-                        <p style="margin-top: 8px;"><strong>${d.title}</strong></p>
+                        <p style="margin-top: 10px; font-size: 14px;"><strong>${d.title}</strong></p>
                     </div>
                 `).join('') : '<p style="color: var(--text-muted);">Документы пока не загружены.</p>';
             }
+            
             const adminDocs = document.getElementById('adminDocsList');
-            if(adminDocs) {
+            if (adminDocs) {
                 adminDocs.innerHTML = docs.map(d => `
                     <div class="admin-item-row">
                         <div>📄 ${d.title}</div>
@@ -603,7 +647,6 @@
             }
         }
 
-        // Запуск при загрузке страницы
         fetchCloudData();
         renderDocs();
     </script>
