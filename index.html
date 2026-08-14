@@ -1,650 +1,1176 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ЧОП — Частная Охрана Москва и МО</title>
-    <style>
-        :root {
-            --bg-main: #080a0f;
-            --bg-card: #0f141d;
-            --bg-card-hover: #151c2a;
-            --gold: #d4af37;
-            --gold-bright: #fcd34d;
-            --gold-glow: rgba(212, 175, 55, 0.25);
-            --border-dark: rgba(255, 255, 255, 0.07);
-            --border-gold: rgba(212, 175, 55, 0.35);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --danger: #ef4444;
-            --glass-bg: rgba(15, 20, 29, 0.75);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЧОП — Частная Охрана Москва и МО</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════════════════ */
+:root {
+  --bg:           #07090e;
+  --bg-card:      #0d1119;
+  --bg-card-h:    #121825;
+  --bg-glass:     rgba(10, 14, 22, 0.80);
+  --gold:         #c9a227;
+  --gold-hi:      #f0c94d;
+  --gold-dim:     rgba(201, 162, 39, 0.18);
+  --gold-glow:    rgba(201, 162, 39, 0.30);
+  --gold-line:    rgba(201, 162, 39, 0.40);
+  --border:       rgba(255,255,255,0.06);
+  --text:         #eaecf0;
+  --muted:        #8b95a5;
+  --danger:       #e84040;
+  --radius:       14px;
+  --radius-sm:    8px;
+  --transition:   0.28s cubic-bezier(.4,0,.2,1);
+}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { 
-            background-color: var(--bg-main); 
-            color: var(--text-main); 
-            min-height: 100vh; 
-            line-height: 1.6;
-            background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
-        }
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* HEADER */
-        header {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-dark);
-            padding: 16px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+html { scroll-behavior: smooth; }
 
-        .logo-block { display: flex; align-items: center; gap: 14px; }
-        .logo-img { height: 44px; width: 44px; border-radius: 50%; border: 1px solid var(--border-gold); box-shadow: 0 0 10px var(--gold-glow); }
-        .logo-text h1 { font-size: 14px; font-weight: 800; color: #fff; letter-spacing: 1px; text-transform: uppercase; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-        nav { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        nav button {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.25s ease;
-        }
-        nav button:hover { color: #fff; background: rgba(255, 255, 255, 0.04); }
-        nav button.active { 
-            background: linear-gradient(135deg, var(--gold), var(--gold-bright)); 
-            color: #000; 
-            font-weight: 700;
-            box-shadow: 0 0 15px var(--gold-glow);
-        }
+/* Subtle radial light emanating from top */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(201,162,39,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 110%, rgba(201,162,39,0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-        .btn-call {
-            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
-            color: #000;
-            padding: 10px 22px;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 13px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px var(--gold-glow);
-        }
-        .btn-call:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+/* ═══════════════════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════════════════ */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+  padding: 0 6%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.logo-emblem {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-line);
+  box-shadow: 0 0 12px var(--gold-dim), inset 0 0 6px rgba(201,162,39,0.1);
+  object-fit: cover;
+  background: #111;
+}
+.logo-label {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1;
+}
+.logo-sub {
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
 
-        /* HERO SECTION */
-        .hero {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 50px;
-            align-items: center;
-            padding: 30px 0 60px 0;
-        }
-        @media(max-width: 900px) { .hero { grid-template-columns: 1fr; text-align: center; } }
+nav {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+nav button {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: .3px;
+  transition: color var(--transition), background var(--transition), border-color var(--transition);
+  white-space: nowrap;
+}
+nav button:hover { color: #fff; background: rgba(255,255,255,0.04); border-color: var(--border); }
+nav button.active {
+  background: linear-gradient(135deg, var(--gold), var(--gold-hi));
+  color: #000;
+  font-weight: 800;
+  border-color: transparent;
+  box-shadow: 0 2px 14px var(--gold-dim);
+}
 
-        .hero-title {
-            font-size: 46px;
-            font-weight: 900;
-            line-height: 1.15;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 22px;
-            background: linear-gradient(180deg, #FFFFFF 30%, #a1a1a1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+.btn-call {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold), var(--gold-hi));
+  color: #000;
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 12.5px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 3px 14px var(--gold-dim);
+  white-space: nowrap;
+}
+.btn-call:hover { transform: translateY(-1px); box-shadow: 0 6px 22px var(--gold-glow); }
 
-        .hero-desc {
-            color: var(--text-muted);
-            font-size: 16px;
-            line-height: 1.7;
-            margin-bottom: 30px;
-            max-width: 580px;
-        }
+/* ═══════════════════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════════════════ */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+}
 
-        /* BADGES */
-        .badges-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 35px; }
-        .badge {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-dark);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            color: #d1d5db;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+section { display: none; animation: fadeUp .36s ease both; }
+section.active { display: block; }
 
-        /* BUTTONS */
-        .hero-btns { display: flex; gap: 15px; flex-wrap: wrap; }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
-            color: #000;
-            padding: 14px 30px;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 14px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px var(--gold-glow);
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-        .btn-outline {
-            background: transparent;
-            color: #fff;
-            padding: 14px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            border: 1px solid var(--border-gold);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-outline:hover { background: var(--gold-glow); border-color: var(--gold); }
+/* ═══════════════════════════════════════════════════════════
+   SECTION HEADINGS
+═══════════════════════════════════════════════════════════ */
+.eyebrow {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.sec-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -.5px;
+  margin-bottom: 44px;
+  background: linear-gradient(170deg, #fff 40%, #6b7280);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-        .hero-logo-card { display: flex; justify-content: center; align-items: center; position: relative; }
-        .hero-logo-card img {
-            max-width: 100%;
-            height: auto;
-            max-height: 400px;
-            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
-            border-radius: 16px;
-            border: 1px solid var(--border-gold);
-        }
+/* ═══════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════ */
+.hero {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 60px;
+  align-items: center;
+  padding: 16px 0 72px;
+}
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+  .hero-visual { order: -1; }
+  .badges, .hero-ctas { justify-content: center; }
+}
 
-        /* FEATURES & CARDS */
-        .sec-subtitle {
-            text-align: center;
-            color: var(--gold);
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .sec-title {
-            text-align: center;
-            font-size: 30px;
-            font-weight: 800;
-            margin-bottom: 40px;
-        }
+.hero-title {
+  font-size: clamp(34px, 5vw, 52px);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  background: linear-gradient(170deg, #fff 35%, #9ca3af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-            gap: 24px;
-        }
+.hero-desc {
+  color: var(--muted);
+  font-size: 15.5px;
+  line-height: 1.75;
+  margin-bottom: 28px;
+  max-width: 520px;
+}
 
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-dark);
-            border-radius: 14px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .feature-card:hover {
-            border-color: var(--border-gold);
-            transform: translateY(-4px);
-            background: var(--bg-card-hover);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .feature-card:hover::before { opacity: 1; }
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.badge {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #c5cad4;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
 
-        .feature-icon { font-size: 32px; margin-bottom: 18px; display: inline-block; }
-        .feature-card h3 { font-size: 19px; margin-bottom: 12px; font-weight: 700; color: #fff; }
-        .feature-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
 
-        /* FORMS */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-dark);
-            border-radius: 14px;
-            padding: 35px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .card h3 { font-size: 22px; margin-bottom: 20px; color: var(--gold); font-weight: 800; }
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-hi));
+  color: #000;
+  padding: 13px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 13.5px;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 4px 16px var(--gold-dim);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--gold-glow); }
 
-        .form-group { margin-bottom: 18px; }
-        label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
-        input, select, textarea {
-            width: 100%;
-            padding: 14px;
-            background: #090c12;
-            border: 1px solid var(--border-dark);
-            border-radius: 10px;
-            color: #fff;
-            outline: none;
-            transition: all 0.25s ease;
-            font-size: 14px;
-        }
-        input:focus, select:focus, textarea:focus { 
-            border-color: var(--gold); 
-            box-shadow: 0 0 12px var(--gold-glow);
-        }
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  padding: 13px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 13.5px;
+  border: 1px solid var(--gold-line);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.btn-outline:hover { background: var(--gold-dim); border-color: var(--gold); box-shadow: 0 0 18px var(--gold-dim); }
 
-        /* DOCS GALLERY */
-        .doc-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
-        .doc-item {
-            background: #090c12;
-            border: 1px solid var(--border-dark);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .doc-item:hover { border-color: var(--gold); transform: scale(1.02); }
-        .doc-item img { max-width: 100%; height: 200px; object-fit: contain; cursor: pointer; border-radius: 6px; }
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero-emblem {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--gold-line);
+  box-shadow: 0 0 60px var(--gold-dim), 0 30px 60px rgba(0,0,0,0.7);
+  object-fit: cover;
+  background: #111;
+  /* spinning glow ring */
+  animation: haloRotate 8s linear infinite;
+  filter: drop-shadow(0 0 24px rgba(201,162,39,0.25));
+}
+@keyframes haloRotate {
+  0%   { box-shadow: 0 0 40px var(--gold-dim), 0 0 80px rgba(201,162,39,.08), 0 30px 60px rgba(0,0,0,.7); }
+  50%  { box-shadow: 0 0 60px rgba(201,162,39,.25), 0 0 120px rgba(201,162,39,.12), 0 30px 60px rgba(0,0,0,.7); }
+  100% { box-shadow: 0 0 40px var(--gold-dim), 0 0 80px rgba(201,162,39,.08), 0 30px 60px rgba(0,0,0,.7); }
+}
 
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: var(--bg-card);
-            border: 1px solid var(--gold);
-            padding: 35px;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 750px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 0 40px var(--gold-glow);
-        }
-        .admin-sec { border-bottom: 1px solid var(--border-dark); padding-bottom: 20px; margin-bottom: 20px; }
-        .admin-item-row {
-            background: #090c12;
-            border: 1px solid var(--border-dark);
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-        }
-        .btn-danger { background: var(--danger); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-    </style>
+/* ═══════════════════════════════════════════════════════════
+   DIVIDER
+═══════════════════════════════════════════════════════════ */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-line), transparent);
+  margin: 0 0 72px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CARDS GRID
+═══════════════════════════════════════════════════════════ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmering top edge on hover */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+  transition: left .45s ease;
+}
+.card:hover { 
+  border-color: var(--gold-line);
+  background: var(--bg-card-h);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.55), 0 0 0 1px var(--gold-line);
+}
+.card:hover::after { left: 100%; }
+
+.card-icon  { font-size: 30px; margin-bottom: 14px; display: inline-block; }
+.card h3    { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.card p     { color: var(--muted); font-size: 14px; line-height: 1.65; }
+.card-price { color: var(--gold-hi); font-size: 22px; font-weight: 900; margin: 10px 0; letter-spacing: -.3px; }
+
+/* Leader card extras */
+.leader-role {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.leader-info { font-size: 13px; color: var(--muted); line-height: 1.8; margin-top: 12px; }
+.leader-info strong { color: #c5cad4; }
+
+/* ═══════════════════════════════════════════════════════════
+   NEWS
+═══════════════════════════════════════════════════════════ */
+.news-list { display: flex; flex-direction: column; gap: 16px; }
+.news-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  transition: border-color var(--transition), background var(--transition);
+}
+.news-item:hover { border-color: var(--gold-line); background: var(--bg-card-h); }
+.news-tag {
+  display: inline-block;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-line);
+  color: var(--gold-hi);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.news-text { font-size: 15px; line-height: 1.7; }
+
+/* ═══════════════════════════════════════════════════════════
+   DOCS GALLERY
+═══════════════════════════════════════════════════════════ */
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.doc-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.doc-card:hover {
+  border-color: var(--gold-line);
+  transform: scale(1.03);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+.doc-thumb {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  background: #0a0d13;
+}
+.doc-label {
+  padding: 12px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ORDER FORM
+═══════════════════════════════════════════════════════════ */
+.form-wrap {
+  max-width: 580px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px;
+}
+.form-wrap h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--gold-hi);
+  margin-bottom: 26px;
+}
+.form-group { margin-bottom: 18px; }
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 13px 16px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+select option { background: #0d1119; }
+
+.submit-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 15px;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-hi));
+  color: #000;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 4px 16px var(--gold-dim);
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 26px var(--gold-glow); }
+.submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  background: var(--bg-card-h);
+  border: 1px solid var(--gold-line);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  z-index: 9999;
+  animation: slideIn .3s ease;
+  max-width: 320px;
+}
+.toast.error { border-color: var(--danger); color: #fca5a5; }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHTBOX MODAL
+═══════════════════════════════════════════════════════════ */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  cursor: zoom-out;
+}
+.lightbox.open { display: flex; animation: fadeUp .25s ease both; }
+.lightbox-inner {
+  position: relative;
+  max-width: 880px;
+  width: 100%;
+  cursor: default;
+}
+.lightbox-img {
+  width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: var(--radius);
+  border: 1px solid var(--gold-line);
+  box-shadow: 0 0 60px rgba(0,0,0,0.8);
+  display: block;
+}
+.lightbox-caption {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.lightbox-close {
+  position: absolute;
+  top: -14px; right: -14px;
+  width: 36px; height: 36px;
+  background: var(--bg-card-h);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition), border-color var(--transition);
+}
+.lightbox-close:hover { color: #fff; border-color: var(--gold-line); }
+
+/* ═══════════════════════════════════════════════════════════
+   ADMIN MODAL
+═══════════════════════════════════════════════════════════ */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 500;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.modal-backdrop.open { display: flex; animation: fadeUp .25s ease both; }
+.modal-box {
+  background: var(--bg-card);
+  border: 1px solid var(--gold-line);
+  border-radius: 18px;
+  padding: 36px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 60px var(--gold-dim);
+}
+.modal-box h3 { font-size: 20px; font-weight: 800; color: var(--gold-hi); margin-bottom: 24px; }
+.modal-section { border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px; }
+.modal-section h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 14px; }
+
+.admin-row {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border);
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  padding: 5px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
+  transition: opacity var(--transition);
+}
+.btn-danger:hover { opacity: .8; }
+.modal-close-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+.modal-close-btn:hover { color: #fff; border-color: var(--gold-line); }
+
+/* ═══════════════════════════════════════════════════════════
+   LOADING STATE
+═══════════════════════════════════════════════════════════ */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-h) 50%, var(--bg-card) 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius);
+  min-height: 160px;
+}
+@keyframes shimmer {
+  0%   { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EMPTY STATE
+═══════════════════════════════════════════════════════════ */
+.empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 48px 0;
+  grid-column: 1/-1;
+}
+.empty-icon { font-size: 36px; margin-bottom: 12px; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  header { padding: 0 4%; gap: 10px; height: auto; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+  nav { gap: 2px; }
+  nav button { padding: 6px 10px; font-size: 11px; }
+  .container { padding: 36px 16px 60px; }
+  .form-wrap { padding: 24px 18px; }
+  .modal-box { padding: 24px 18px; }
+  .hero-title { font-size: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo-block">
-            <img src="image_50c260.png" alt="ЧОП" class="logo-img" onerror="this.src='https://via.placeholder.com/44/d4af37/000?text=ЧОП'">
-            <div class="logo-text">
-                <h1>Москва и МО</h1>
-            </div>
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header>
+  <a href="#" class="logo" onclick="showSection('main')">
+    <img src="image_50c260.png" alt="ЧОП" class="logo-emblem"
+         onerror="this.src='https://via.placeholder.com/40/c9a227/000?text=ЧОП'">
+    <div>
+      <div class="logo-label">ЧОП</div>
+      <div class="logo-sub">Москва и МО</div>
+    </div>
+  </a>
+
+  <nav id="mainNav">
+    <button data-sec="main"    class="active" onclick="showSection('main')">Главная</button>
+    <button data-sec="services"              onclick="showSection('services')">Услуги</button>
+    <button data-sec="docs"                  onclick="showSection('docs')">Документы</button>
+    <button data-sec="leaders"               onclick="showSection('leaders')">Руководство</button>
+    <button data-sec="press"                 onclick="showSection('press')">Пресс-служба</button>
+    <button                                  onclick="openAdminModal()">Админ</button>
+  </nav>
+
+  <button class="btn-call" onclick="showSection('order')">📞 Срочный вызов</button>
+</header>
+
+<!-- ═══════════════ MAIN CONTAINER ═══════════════ -->
+<div class="container">
+
+  <!-- ── ГЛАВНАЯ ── -->
+  <section id="main" class="active">
+    <div class="hero">
+      <div>
+        <h1 class="hero-title">Частная Охрана<br>Москва и МО</h1>
+        <p class="hero-desc">
+          Профессиональная защита объектов любой сложности, бизнеса, VIP-персон
+          и мероприятий. Экипированные мобильные группы быстрого реагирования 24/7.
+        </p>
+        <div class="badges">
+          <span class="badge">⚡ Прибытие ГБР от 7 минут</span>
+          <span class="badge">🛡 Лицензия МВД</span>
+          <span class="badge">💼 Полная материальная ответственность</span>
         </div>
-        <nav>
-            <button onclick="showSection('main-sec')" class="active">Главная</button>
-            <button onclick="showSection('services-sec')">Услуги</button>
-            <button onclick="showSection('docs-sec')">Документация</button>
-            <button onclick="showSection('leaders-sec')">Руководство</button>
-            <button onclick="showSection('press-sec')">Пресс-служба</button>
-            <button onclick="openAdminModal()">Админ-Панель</button>
-        </nav>
-        <button class="btn-call" onclick="showSection('order-sec')">📞 Срочный вызов</button>
-    </header>
-
-    <div class="container">
-        
-        <!-- СЕКЦИЯ: ГЛАВНАЯ СТРАНИЦА -->
-        <div id="main-sec">
-            <div class="hero">
-                <div>
-                    <h1 class="hero-title">Частная Охрана Москва и МО</h1>
-                    <p class="hero-desc">
-                        Профессиональная защита объектов любой сложности, бизнеса, VIP-персон и мероприятий. Экипированные мобильные группы быстрого реагирования 24/7.
-                    </p>
-
-                    <div class="badges-list">
-                        <div class="badge">⚡ Прибытие ГБР от 7 минут</div>
-                        <div class="badge">🛡 Лицензия Роспотребнадзора / МВД</div>
-                        <div class="badge">💼 Полная ответственность</div>
-                    </div>
-
-                    <div class="hero-btns">
-                        <button class="btn-primary" onclick="showSection('order-sec')">Заказать охрану</button>
-                        <button class="btn-outline" onclick="showSection('docs-sec')">📜 Документация</button>
-                    </div>
-                </div>
-
-                <div class="hero-logo-card">
-                    <img src="image_50c260.png" alt="Печать ЧОП" onerror="this.src='https://via.placeholder.com/380/d4af37/000?text=ГЕРБ+ЧОП'">
-                </div>
-            </div>
-
-            <div style="margin-top: 60px;">
-                <div class="sec-subtitle">Преимущества</div>
-                <h2 class="sec-title">Стандарты Высокого Уровня</h2>
-
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <span class="feature-icon">🏛</span>
-                        <h3>Охрана Объектов</h3>
-                        <p>Физическая и пультовая охрана бизнес-центров, складов, ТРЦ и частных резиденций.</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <span class="feature-icon">🚨</span>
-                        <h3>Экипажи ГБР 24/7</h3>
-                        <p>Собственный автопарк подготовленных мобильных групп реагирования. Доезд от 7 минут.</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <span class="feature-icon">💼</span>
-                        <h3>Личная Охрана (VIP)</h3>
-                        <p>Опытные телохранители с разрешением на спецсредства и экстремальное вождение.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="showSection('order')">Заказать охрану</button>
+          <button class="btn-outline"  onclick="showSection('docs')">📜 Документация</button>
         </div>
-
-        <!-- СЕКЦИЯ: ФОРМА ЗАКАЗА -->
-        <div id="order-sec" style="display: none;">
-            <div class="card" style="max-width: 600px; margin: 0 auto;">
-                <h3>Заказать услугу охраны</h3>
-                <form id="orderForm">
-                    <div class="form-group">
-                        <label>Ваш Статик ID</label>
-                        <input type="text" id="staticId" placeholder="#1024" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Игровой номер телефона</label>
-                        <input type="text" id="phone" placeholder="555-777" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Тип услуги</label>
-                        <select id="serviceType">
-                            <option value="Охрана объекта">Охрана объекта</option>
-                            <option value="Вызов ГБР">Срочный вызов ГБР</option>
-                            <option value="Личная охрана">Личная охрана (VIP)</option>
-                            <option value="Сопровождение">Сопровождение кортежа</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Детали заказа</label>
-                        <textarea id="details" rows="4" placeholder="Локация, время, пожелания..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary" style="width: 100%;">Отправить заявку</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- СЕКЦИЯ: УСЛУГИ -->
-        <div id="services-sec" style="display: none;">
-            <div class="sec-subtitle">Тарифы</div>
-            <h2 class="sec-title">Услуги и Стоимость</h2>
-            <div class="features-grid" id="servicesContainer">Загрузка...</div>
-        </div>
-
-        <!-- СЕКЦИЯ: РУКОВОДСТВО -->
-        <div id="leaders-sec" style="display: none;">
-            <div class="sec-subtitle">Команда</div>
-            <h2 class="sec-title">Руководство Предприятия</h2>
-            <div class="features-grid" id="leadersList">Загрузка...</div>
-        </div>
-
-        <!-- СЕКЦИЯ: ПРЕСС-СЛУЖБА -->
-        <div id="press-sec" style="display: none;">
-            <div class="sec-subtitle">Новости</div>
-            <h2 class="sec-title">Пресс-Служба & Релизы</h2>
-            <div id="newsList">Загрузка...</div>
-        </div>
-
-        <!-- СЕКЦИЯ: ДОКУМЕНТАЦИЯ -->
-        <div id="docs-sec" style="display: none;">
-            <div class="sec-subtitle">Сертификация</div>
-            <h2 class="sec-title">Официальная Документация</h2>
-            <div class="doc-list" id="docGallery"></div>
-        </div>
-
+      </div>
+      <div class="hero-visual">
+        <img src="image_50c260.png" alt="Эмблема ЧОП" class="hero-emblem"
+             onerror="this.src='https://via.placeholder.com/320/c9a227/000?text=ЧОП'">
+      </div>
     </div>
 
-    <!-- МОДАЛКА АДМИНКИ -->
-    <div class="modal" id="adminModal">
-        <div class="modal-content">
-            <h3 style="color: var(--gold); margin-bottom: 20px;">Панель Управления</h3>
-            
-            <div id="adminLogin">
-                <div class="form-group">
-                    <label>Пароль Администратора</label>
-                    <input type="password" id="adminPassword" placeholder="Введите пароль...">
-                </div>
-                <button class="btn-primary" onclick="checkPassword()" style="width: 100%;">Войти</button>
-            </div>
+    <div class="gold-divider"></div>
 
-            <div id="adminPanel" style="display: none;">
-                <p style="color: var(--gold); margin-bottom: 20px; font-size: 13px;">ℹ️ Услуги, новости и руководство управляются через Google Таблицу.</p>
-                
-                <div class="admin-sec">
-                    <h4 style="margin-bottom: 12px; color: #fff;">📄 Быстрая загрузка документов (локально)</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                        <input type="file" id="docUpload" accept="image/*">
-                        <input type="text" id="docTitle" placeholder="Название документа">
-                    </div>
-                    <button class="btn-primary" onclick="uploadDocument()" style="margin-bottom: 15px; width: 100%;">Загрузить в браузер</button>
-                    <div id="adminDocsList"></div>
-                </div>
-            </div>
+    <div class="eyebrow">Преимущества</div>
+    <h2 class="sec-title">Стандарты Высокого Уровня</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <span class="card-icon">🏛</span>
+        <h3>Охрана Объектов</h3>
+        <p>Физическая и пультовая охрана бизнес-центров, складов, ТРЦ и частных резиденций.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🚨</span>
+        <h3>Экипажи ГБР 24/7</h3>
+        <p>Собственный автопарк подготовленных мобильных групп реагирования. Доезд от 7 минут.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">💼</span>
+        <h3>Личная Охрана (VIP)</h3>
+        <p>Опытные телохранители с разрешением на спецсредства и экстремальное вождение.</p>
+      </div>
+    </div>
+  </section>
 
-            <button onclick="closeAdminModal()" style="margin-top: 10px; background: transparent; border: 1px solid var(--border-dark); color: var(--text-muted); padding: 12px; width: 100%; border-radius: 10px; cursor: pointer;">Закрыть</button>
+  <!-- ── УСЛУГИ ── -->
+  <section id="services">
+    <div class="eyebrow">Тарифы</div>
+    <h2 class="sec-title">Услуги и Стоимость</h2>
+    <div class="cards-grid" id="servicesGrid">
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+    </div>
+  </section>
+
+  <!-- ── РУКОВОДСТВО ── -->
+  <section id="leaders">
+    <div class="eyebrow">Команда</div>
+    <h2 class="sec-title">Руководство Предприятия</h2>
+    <div class="cards-grid" id="leadersGrid">
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+    </div>
+  </section>
+
+  <!-- ── ПРЕСС-СЛУЖБА ── -->
+  <section id="press">
+    <div class="eyebrow">Новости</div>
+    <h2 class="sec-title">Пресс-Служба &amp; Релизы</h2>
+    <div class="news-list" id="newsList">
+      <div class="skeleton"></div>
+      <div class="skeleton" style="min-height:100px"></div>
+    </div>
+  </section>
+
+  <!-- ── ДОКУМЕНТЫ ── -->
+  <section id="docs">
+    <div class="eyebrow">Сертификация</div>
+    <h2 class="sec-title">Официальная Документация</h2>
+    <div class="docs-grid" id="docsGrid">
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+    </div>
+  </section>
+
+  <!-- ── ЗАЯВКА ── -->
+  <section id="order">
+    <div class="form-wrap">
+      <h3>🛡 Заказать охрану</h3>
+      <form id="orderForm" novalidate>
+        <div class="form-group">
+          <label for="staticId">Ваш Статик ID</label>
+          <input type="text" id="staticId" placeholder="#1024" required autocomplete="off">
         </div>
+        <div class="form-group">
+          <label for="phone">Игровой номер телефона</label>
+          <input type="text" id="phone" placeholder="555-777" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="serviceType">Тип услуги</label>
+          <select id="serviceType">
+            <option value="Охрана объекта">Охрана объекта</option>
+            <option value="Вызов ГБР">Срочный вызов ГБР</option>
+            <option value="Личная охрана">Личная охрана (VIP)</option>
+            <option value="Сопровождение">Сопровождение кортежа</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="details">Детали заказа</label>
+          <textarea id="details" rows="4" placeholder="Локация, время, пожелания..." required></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">Отправить заявку</button>
+      </form>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<!-- ═══════════════ LIGHTBOX ═══════════════ -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Закрыть">✕</button>
+    <img src="" alt="" class="lightbox-img" id="lightboxImg">
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
+</div>
+
+<!-- ═══════════════ ADMIN MODAL ═══════════════ -->
+<div class="modal-backdrop" id="adminModal" onclick="handleModalBackdropClick(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <h3>⚙️ Панель Управления</h3>
+
+    <div id="adminLogin">
+      <div class="form-group">
+        <label for="adminPassword">Пароль Администратора</label>
+        <input type="password" id="adminPassword" placeholder="Введите пароль..."
+               onkeydown="if(event.key==='Enter') checkPassword()">
+      </div>
+      <button class="btn-primary" onclick="checkPassword()" style="width:100%">Войти</button>
     </div>
 
-    <script>
-        const ADMIN_PASS = "%yH]9?5Rtvf:7&";
-        
-        // ВАШ УКАЗАННЫЙ GOOGLE APPS SCRIPT URL:
-        const API_URL = "https://script.google.com/macros/s/AKfycbwVaK9JvX6zTI1L4JAHapuDMzI4jo3mYyqjdgEeBnb-x6BjKa4YhcOSsnuqWswiz5ldjg/exec"; 
-        
-        // Вшитый Discord Webhook
-        const webhookUrl = "https://discord.com/api/webhooks/1537525072145809519/E2jdiBi4csxtSYtSDy1qeF8vifGthK1gRZSGYR-kemNBHGH43NG5WrqxAvf2mYx1oaxY";
+    <div id="adminPanel" style="display:none">
+      <p style="font-size:13px;color:var(--muted);background:var(--gold-dim);border:1px solid var(--gold-line);padding:12px 16px;border-radius:8px;margin-bottom:20px;">
+        ℹ️ Услуги, новости и руководство управляются через Google Таблицу.
+      </p>
 
-        function showSection(secId) {
-            const sections = ['main-sec', 'services-sec', 'docs-sec', 'leaders-sec', 'press-sec', 'order-sec'];
-            sections.forEach(id => document.getElementById(id).style.display = 'none');
-            
-            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(secId).style.display = 'block';
-            
-            const btnMap = {
-                'main-sec': 0, 'services-sec': 1, 'docs-sec': 2, 'leaders-sec': 3, 'press-sec': 4
-            };
-            if(btnMap[secId] !== undefined) document.querySelectorAll('nav button')[btnMap[secId]].classList.add('active');
-        }
+      <div class="modal-section">
+        <h4>📄 Загрузить документ (локально)</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+          <input type="file" id="docUpload" accept="image/*">
+          <input type="text"  id="docTitle"  placeholder="Название документа">
+        </div>
+        <button class="btn-primary" onclick="uploadDocument()" style="width:100%;margin-bottom:16px;">
+          Загрузить
+        </button>
+        <div id="adminDocsList"></div>
+      </div>
+    </div>
 
-        // Загрузка данных из облака
-        async function fetchCloudData() {
-            try {
-                const res = await fetch(`${API_URL}?action=getAll&nocache=${Date.now()}`);
-                const data = await res.json();
-                
-                // Услуги
-                if (data.services && document.getElementById('servicesContainer')) {
-                    document.getElementById('servicesContainer').innerHTML = data.services.map(s => `
-                        <div class="feature-card">
-                            <h3>${s.title}</h3>
-                            <p style="color: var(--gold); font-size: 20px; font-weight: 800; margin: 10px 0;">${s.price}</p>
-                            <p>${s.desc}</p>
-                        </div>
-                    `).join('');
-                }
+    <button class="modal-close-btn" onclick="closeAdminModal()">Закрыть</button>
+  </div>
+</div>
 
-                // Новости
-                if (data.news && document.getElementById('newsList')) {
-                    document.getElementById('newsList').innerHTML = data.news.map(n => `
-                        <div class="card">
-                            <strong style="color: var(--gold); font-size: 14px;">${n.tag || '[Новость]'}</strong>
-                            <p style="margin-top: 8px; font-size: 15px;">${n.text}</p>
-                        </div>
-                    `).join('');
-                }
+<script>
+/* ═══════════════════════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════════════════════ */
+const ADMIN_PASS  = "%yH]9?5Rtvf:7&";
+const API_URL     = "https://script.google.com/macros/s/AKfycbwVaK9JvX6zTI1L4JAHapuDMzI4jo3mYyqjdgEeBnb-x6BjKa4YhcOSsnuqWswiz5ldjg/exec";
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1537525072145809519/E2jdiBi4csxtSYtSDy1qeF8vifGthK1gRZSGYR-kemNBHGH43NG5WrqxAvf2mYx1oaxY";
 
-                // Руководство
-                if (data.leaders && document.getElementById('leadersList')) {
-                    document.getElementById('leadersList').innerHTML = data.leaders.map(l => `
-                        <div class="feature-card">
-                            <div style="color: var(--gold); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">${l.role}</div>
-                            <h3 style="margin: 6px 0 12px 0;">${l.name}</h3>
-                            <p><strong>Статик:</strong> ${l.staticId}</p>
-                            <p><strong>Телефон:</strong> ${l.phone}</p>
-                            <p><strong>Обязанности:</strong> ${l.duty}</p>
-                        </div>
-                    `).join('');
-                }
+/* ═══════════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════════ */
+function showSection(id) {
+  document.querySelectorAll('.container section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('#mainNav [data-sec]').forEach(b => b.classList.remove('active'));
 
-                // Документы из таблицы
-                if (data.docs && data.docs.length > 0) {
-                    renderDocsFromCloud(data.docs);
-                }
-            } catch (err) {
-                console.error("Ошибка загрузки данных из таблицы:", err);
-            }
-        }
+  const sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
 
-        // Заказ
-        document.getElementById('orderForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const orderData = {
-                action: 'addOrder',
-                staticId: document.getElementById('staticId').value,
-                phone: document.getElementById('phone').value,
-                service: document.getElementById('serviceType').value,
-                details: document.getElementById('details').value
-            };
+  const btn = document.querySelector(`#mainNav [data-sec="${id}"]`);
+  if (btn) btn.classList.add('active');
 
-            // В Google Таблицу
-            fetch(API_URL, { method: 'POST', body: JSON.stringify(orderData) }).catch(err => console.error(err));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-            // В Discord
-            if (webhookUrl) {
-                const payload = {
-                    content: "🚨 **Поступила новая заявка на охрану!**",
-                    embeds: [{
-                        title: orderData.service,
-                        color: 13917815,
-                        fields: [
-                            { name: "👤 Статик ID", value: orderData.staticId, inline: true },
-                            { name: "📞 Телефон", value: orderData.phone, inline: true },
-                            { name: "📝 Детали", value: orderData.details, inline: false }
-                        ],
-                        timestamp: new Date().toISOString()
-                    }]
-                };
-                fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-            }
+/* ═══════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════ */
+function toast(msg, isError = false) {
+  const el = document.createElement('div');
+  el.className = 'toast' + (isError ? ' error' : '');
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
 
-            alert('Заявка успешно отправлена!');
-            this.reset();
-        });
+/* ═══════════════════════════════════════════════════════════
+   CLOUD DATA LOADER
+═══════════════════════════════════════════════════════════ */
+async function loadCloudData() {
+  try {
+    const res  = await fetch(`${API_URL}?action=getAll&t=${Date.now()}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
 
-        // Админка
-        function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
-        function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+    if (data.status === 'error') throw new Error(data.message);
 
-        function checkPassword() {
-            if (document.getElementById('adminPassword').value === ADMIN_PASS) {
-                document.getElementById('adminLogin').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                renderDocs();
-            } else { alert('Неверный пароль!'); }
-        }
+    renderServices(data.services || []);
+    renderNews(data.news       || []);
+    renderLeaders(data.leaders || []);
+    renderDocs(data.docs       || []);
 
-        // Локальные документы
-        function uploadDocument() {
-            const fileInput = document.getElementById('docUpload');
-            const titleInput = document.getElementById('docTitle').value;
-            if (fileInput.files.length === 0) return alert('Выберите файл!');
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
-                docs.push({ id: Date.now(), title: titleInput || 'Официальный документ', image: e.target.result });
-                localStorage.setItem('chop_docs', JSON.stringify(docs));
-                renderDocs();
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        }
+  } catch (err) {
+    console.error('[API Error]', err);
+    renderError('servicesGrid');
+    renderError('newsList', 'div');
+    renderError('leadersGrid');
+    renderError('docsGrid');
+  }
+}
 
-        function deleteDoc(id) {
-            let docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
-            docs = docs.filter(d => d.id !== id);
-            localStorage.setItem('chop_docs', JSON.stringify(docs));
-            renderDocs();
-        }
+/* ── Renderers ── */
+function renderServices(items) {
+  const el = document.getElementById('servicesGrid');
+  if (!items.length) { el.innerHTML = emptyState('Услуги ещё не добавлены'); return; }
+  el.innerHTML = items.map(s => `
+    <div class="card">
+      <h3>${esc(s.title)}</h3>
+      <div class="card-price">${esc(s.price)}</div>
+      <p>${esc(s.desc)}</p>
+    </div>`).join('');
+}
 
-        function renderDocsFromCloud(cloudDocs) {
-            const gallery = document.getElementById('docGallery');
-            if (gallery) {
-                gallery.innerHTML = cloudDocs.map(d => `
-                    <div class="doc-item">
-                        <img src="${d.imageUrl}" onclick="window.open('${d.imageUrl}')">
-                        <p style="margin-top: 10px; font-size: 14px;"><strong>${d.title}</strong></p>
-                    </div>
-                `).join('');
-            }
-        }
+function renderNews(items) {
+  const el = document.getElementById('newsList');
+  if (!items.length) { el.innerHTML = emptyState('Нет новостей'); return; }
+  el.innerHTML = items.map(n => `
+    <div class="news-item">
+      <span class="news-tag">${esc(n.tag || 'Новость')}</span>
+      <p class="news-text">${esc(n.text)}</p>
+    </div>`).join('');
+}
 
-        function renderDocs() {
-            const docs = JSON.parse(localStorage.getItem('chop_docs') || '[]');
-            const gallery = document.getElementById('docGallery');
-            if (gallery && gallery.children.length === 0) {
-                gallery.innerHTML = docs.length ? docs.map(d => `
-                    <div class="doc-item">
-                        <img src="${d.image}" onclick="window.open('${d.image}')">
-                        <p style="margin-top: 10px; font-size: 14px;"><strong>${d.title}</strong></p>
-                    </div>
-                `).join('') : '<p style="color: var(--text-muted);">Документы пока не загружены.</p>';
-            }
-            
-            const adminDocs = document.getElementById('adminDocsList');
-            if (adminDocs) {
-                adminDocs.innerHTML = docs.map(d => `
-                    <div class="admin-item-row">
-                        <div>📄 ${d.title}</div>
-                        <button class="btn-danger" onclick="deleteDoc(${d.id})">Удалить</button>
-                    </div>
-                `).join('');
-            }
-        }
+function renderLeaders(items) {
+  const el = document.getElementById('leadersGrid');
+  if (!items.length) { el.innerHTML = emptyState('Данные не загружены'); return; }
+  el.innerHTML = items.map(l => `
+    <div class="card">
+      <div class="leader-role">${esc(l.role)}</div>
+      <h3>${esc(l.name)}</h3>
+      <div class="leader-info">
+        <div><strong>Статик:</strong> ${esc(l.staticId)}</div>
+        <div><strong>Телефон:</strong> ${esc(l.phone)}</div>
+        <div><strong>Обязанности:</strong> ${esc(l.duty)}</div>
+      </div>
+    </div>`).join('');
+}
 
-        fetchCloudData();
-        renderDocs();
-    </script>
+function renderDocs(items) {
+  const el = document.getElementById('docsGrid');
+  // Merge cloud docs with local docs
+  const localDocs = getLocalDocs().map(d => ({ title: d.title, imageUrl: d.image, _local: true, _id: d.id }));
+  const all = [...items, ...localDocs];
+  if (!all.length) { el.innerHTML = emptyState('Документы не загружены'); return; }
+  el.innerHTML = all.map(d => `
+    <div class="doc-card" onclick="openLightbox('${esc(d.imageUrl)}', '${esc(d.title)}')">
+      <img src="${esc(d.imageUrl)}" alt="${esc(d.title)}" class="doc-thumb"
+           onerror="this.src='https://via.placeholder.com/200x180/0d1119/8b95a5?text=Документ'">
+      <div class="doc-label">${esc(d.title)}</div>
+    </div>`).join('');
+}
+
+function renderError(elId, tag = 'div') {
+  const el = document.getElementById(elId);
+  if (el) el.innerHTML = `<${tag} class="empty" style="grid-column:1/-1"><div class="empty-icon">⚠️</div>Не удалось загрузить данные. Проверьте API.</${tag}>`;
+}
+
+function emptyState(msg) {
+  return `<div class="empty"><div class="empty-icon">📭</div>${msg}</div>`;
+}
+
+// XSS protection
+function esc(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ORDER FORM
+═══════════════════════════════════════════════════════════ */
+document.getElementById('orderForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const staticId = document.getElementById('staticId').value.trim();
+  const phone    = document.getElementById('phone').value.trim();
+  const service  = document.getElementById('serviceType').value;
+  const details  = document.getElementById('details').value.trim();
+
+  if (!staticId || !phone || !details) {
+    toast('Пожалуйста, заполните все поля.', true);
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Отправляем…';
+
+  const payload = { action: 'addOrder', staticId, phone, service, details };
+
+  try {
+    // Google Sheets (non-blocking — fire and forget on error)
+    fetch(API_URL, {
+      method : 'POST',
+      body   : JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' },
+    }).catch(() => {});
+
+    // Discord embed
+    await fetch(WEBHOOK_URL, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({
+        content: "🚨 **Новая заявка на охрану!**",
+        embeds : [{
+          title : service,
+          color : 0xC9A227,
+          fields: [
+            { name: "👤 Статик ID", value: staticId, inline: true },
+            { name: "📞 Телефон",   value: phone,    inline: true },
+            { name: "📝 Детали",    value: details,  inline: false },
+          ],
+          timestamp: new Date().toISOString(),
+          footer   : { text: "ЧОП — Москва и МО" },
+        }],
+      }),
+    });
+
+    toast('✅ Заявка успешно отправлена!');
+    this.reset();
+
+  } catch (err) {
+    console.error('[Order Error]', err);
+    toast('Ошибка отправки. Проверьте соединение.', true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Отправить заявку';
+  }
+});
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHTBOX
+═══════════════════════════════════════════════════════════ */
+function openLightbox(src, caption) {
+  document.getElementById('lightboxImg').src     = src;
+  document.getElementById('lightboxCaption').textContent = caption;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+/* ═══════════════════════════════════════════════════════════
+   ADMIN
+═══════════════════════════════════════════════════════════ */
+function openAdminModal() {
+  document.getElementById('adminModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAdminModal() {
+  document.getElementById('adminModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleModalBackdropClick(e) {
+  if (e.target === document.getElementById('adminModal')) closeAdminModal();
+}
+
+function checkPassword() {
+  if (document.getElementById('adminPassword').value === ADMIN_PASS) {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    renderAdminDocs();
+  } else {
+    toast('Неверный пароль!', true);
+    document.getElementById('adminPassword').value = '';
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOCAL DOCS (localStorage)
+═══════════════════════════════════════════════════════════ */
+function getLocalDocs() {
+  try { return JSON.parse(localStorage.getItem('chop_docs') || '[]'); }
+  catch { return []; }
+}
+function saveLocalDocs(docs) {
+  localStorage.setItem('chop_docs', JSON.stringify(docs));
+}
+
+function uploadDocument() {
+  const fileInput = document.getElementById('docUpload');
+  const title     = document.getElementById('docTitle').value.trim() || 'Официальный документ';
+  if (!fileInput.files.length) { toast('Выберите файл!', true); return; }
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const docs = getLocalDocs();
+    docs.push({ id: Date.now(), title, image: e.target.result });
+    saveLocalDocs(docs);
+    renderAdminDocs();
+    renderDocs([]); // refresh public gallery (will merge local)
+    toast('Документ загружен!');
+  };
+  reader.readAsDataURL(fileInput.files[0]);
+}
+
+function deleteDoc(id) {
+  const docs = getLocalDocs().filter(d => d.id !== id);
+  saveLocalDocs(docs);
+  renderAdminDocs();
+  renderDocs([]);
+}
+
+function renderAdminDocs() {
+  const docs = getLocalDocs();
+  const el   = document.getElementById('adminDocsList');
+  if (!el) return;
+  el.innerHTML = docs.length
+    ? docs.map(d => `
+        <div class="admin-row">
+          <span>📄 ${esc(d.title)}</span>
+          <button class="btn-danger" onclick="deleteDoc(${d.id})">Удалить</button>
+        </div>`).join('')
+    : '<p style="color:var(--muted);font-size:13px;">Нет загруженных документов.</p>';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════ */
+loadCloudData();
+</script>
 </body>
 </html>
