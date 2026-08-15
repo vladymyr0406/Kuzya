@@ -1051,7 +1051,8 @@ document.getElementById('orderForm').addEventListener('submit', async function (
       method : 'POST',
       headers: { 'Content-Type': 'application/json' },
       body   : JSON.stringify({
-        content: "🚨 **Новая заявка на охрану!**",
+        // Упоминания ролей добавлены в начало content
+        content: "<@&1524754391771643977> <@&1537736123529429062> 🚨 **Новая заявка на охрану!**",
         embeds : [{
           title : service,
           color : 0xC9A227,
